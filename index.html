@@ -96,10 +96,15 @@
 <body class="text-black">
 
 <!-- ОВЕРЛЕЙ ВХОДА -->
-<div id="entry-overlay" class="fixed inset-0 z-[9999] bg-white/80 backdrop-blur-xl flex items-center justify-center">
-    <div class="bg-white/90 p-10 rounded-[2.5rem] shadow-2xl text-center max-w-lg w-[90%] glass-card">
+<div id="entry-overlay" class="fixed inset-0 z-[9999] bg-white/80 backdrop-blur-xl flex items-center justify-center transition-all duration-700">
+    <div class="bg-white/90 p-10 rounded-[2.5rem] shadow-2xl border border-gray-100 text-center max-w-lg w-[90%] glass-card">
+        <div class="mb-6 inline-block bg-black text-white px-4 py-1 text-xs font-bold tracking-widest uppercase">Добро пожаловать</div>
         <h2 class="text-3xl font-extrabold mb-8 uppercase tracking-tighter">Альянс консалтинг «Гепард»</h2>
-        <button onclick="enterSite()" class="bg-black text-white py-5 px-12 rounded-2xl text-xl font-bold hover:bg-[#86BC24] transition-all">Войти</button>
+        <div class="flex flex-col gap-4">
+            <button onclick="enterSite()" class="bg-black text-white py-5 rounded-2xl text-xl font-bold hover:bg-[#86BC24] transition-all shadow-lg">
+                Войти в систему
+            </button>
+        </div>
     </div>
 </div>
 
@@ -108,25 +113,48 @@
 <!-- ШАПКА -->
 <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        <div class="text-xl font-extrabold uppercase tracking-tighter">Гепард <span class="text-[#86BC24]">Консалтинг</span></div>
-        <nav class="hidden md:flex gap-8 items-center font-semibold text-xs uppercase tracking-widest">
+        <div class="text-xl font-extrabold uppercase tracking-tighter">
+            Альянс <span class="text-[#86BC24]">Консалтинг</span> Гепард
+        </div>
+        <nav class="hidden md:flex gap-8 items-center font-semibold text-sm uppercase tracking-wider">
             <a href="#about" class="hover:text-[#86BC24]">О нас</a>
             <a href="#services" class="hover:text-[#86BC24]">Услуги</a>
             <a href="#solutions" class="hover:text-[#86BC24]">Решения</a>
+            <a href="#contact" class="bg-black text-white px-6 py-2 rounded-full hover:bg-[#86BC24] transition-all">Связаться</a>
         </nav>
     </div>
 </header>
 
 <!-- HERO -->
-<section class="hero-bg h-[60vh] flex items-center text-white">
+<section class="hero-bg h-[80vh] flex items-center text-white">
     <div class="max-w-7xl mx-auto px-6 w-full">
-        <div class="deloitte-border pl-8">
-            <h1 class="text-6xl font-black uppercase mb-4 tracking-tighter">Глобальный <span class="text-[#86BC24]">Опыт.</span></h1>
-            <p class="text-xl opacity-80 max-w-xl font-light">Прецизионный консалтинг для вашего бизнеса.</p>
+        <div class="deloitte-border pl-8 max-w-3xl">
+            <h1 class="text-5xl md:text-8xl font-black leading-none mb-8 uppercase">
+                ГЛОБАЛЬНЫЙ <br><span class="text-[#86BC24]">ОПЫТ.</span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-10 opacity-80 font-light max-w-xl">
+                Стратегические решения в области аудита, налогов и бизнес-трансформации.
+            </p>
         </div>
     </div>
 </section>
 
+<!-- О НАС -->
+<section id="about" class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-20 items-center">
+        <div>
+            <span class="text-[#86BC24] font-bold tracking-widest uppercase text-sm">Кто мы</span>
+            <h2 class="text-4xl font-black mt-4 mb-8">Лидерство сквозь призму инноваций</h2>
+            <p class="text-lg text-gray-600 leading-relaxed mb-6">
+                Мы объединяем лучшие практики мирового консалтинга с глубоким пониманием региональной специфики.
+            </p>
+        </div>
+        <div class="relative">
+            <img src="about-team.jpg" class="rounded-none shadow-2xl w-full h-[500px] object-cover" alt="Команда">
+        </div>
+    </div>
+</section>
+    
 <!-- УСЛУГИ (СЕТКА 3x3) -->
 <section id="services" class="py-24 bg-gray-50">
     <div class="max-w-7xl mx-auto px-6">
@@ -243,6 +271,21 @@
     </div>
 </section>
 
+<!-- КОНТАКТЫ -->
+<section id="contact" class="py-24 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+        <h2 class="text-5xl font-black mb-12 uppercase tracking-tighter">Готовы начать?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <a href="https://max.ru/u/f9LHodD0cOLfZNnm5fW88XXEncP36OwIrQF6_creXm_-DZT0g-LND_Hv5nc" 
+               class="bg-[#0052cc] text-white py-6 rounded-xl font-bold hover:shadow-xl transition-all">Чат в Максе</a>
+            <a href="imessage:89147128405" 
+               class="bg-[#34c759] text-white py-6 rounded-xl font-bold hover:shadow-xl transition-all">iMessage</a>
+            <a href="tel:89147128405" 
+               class="bg-black text-white py-6 rounded-xl font-bold hover:shadow-xl transition-all">Позвонить</a>
+        </div>
+    </div>
+</section>
+    
 <!-- ФУТЕР -->
 <footer class="bg-black text-white py-10 border-t border-gray-900">
     <div class="max-w-7xl mx-auto px-6 text-center text-[10px] text-gray-600 uppercase tracking-[0.2em]">
