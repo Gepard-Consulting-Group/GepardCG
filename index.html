@@ -4,372 +4,317 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Альянс консалтинг «Гепард»</title>
+    
+    <!-- Используем Tailwind CSS как в твоем примере -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
     <style>
-        /* CSS СТИЛИ В СТИЛЕ DELOITTE */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        
         :root {
             --deloitte-green: #86BC24;
-            --deloitte-black: #0F0B0B;
-            --deloitte-grey: #F2F2F2;
-            --white: #FFFFFF;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #ffffff;
+            scroll-behavior: smooth;
+            overflow: hidden; /* Блокируем скролл до выбора */
+        }
+        
+        #main-content {
+            filter: blur(15px);
+            transition: filter 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        body {
-            background-color: var(--white);
-            color: var(--deloitte-black);
-            line-height: 1.6;
-            overflow-x: hidden;
+        /* Стиль Deloitte: строгость и акценты */
+        .deloitte-border { border-left: 4px solid var(--deloitte-green); }
+        
+        .hero-bg {
+            background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
         }
 
-        /* Шапка */
-        header {
-            padding: 20px 5%;
+        /* Кастомная карусель */
+        .carousel-track {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #ddd;
-            position: sticky;
-            top: 0;
-            background: var(--white);
-            z-index: 1000;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .logo span {
-            color: var(--deloitte-green);
-            font-size: 30px;
-        }
-
-        nav a {
-            margin-left: 25px;
-            text-decoration: none;
-            color: var(--deloitte-black);
-            font-weight: 600;
-            font-size: 14px;
-            text-transform: uppercase;
-        }
-
-        /* Hero секция */
-        .hero {
-            height: 60vh;
-            background-color: var(--deloitte-black);
-            color: var(--white);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 0 10%;
-        }
-
-        .hero h1 {
-            font-size: 48px;
-            max-width: 800px;
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            font-size: 20px;
-            color: #ccc;
-        }
-
-        /* Секции общие */
-        section {
-            padding: 80px 10%;
-        }
-
-        h2 {
-            font-size: 32px;
-            margin-bottom: 40px;
-            border-left: 5px solid var(--deloitte-green);
-            padding-left: 15px;
-        }
-
-        /* Карусель услуг и Калькулятор */
-        .services-container {
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 30px;
-        }
-
-        .services-track {
-            display: flex;
-            transition: transform 0.5s ease;
-            gap: 20px;
+            transition: transform 0.5s ease-in-out;
+            gap: 1.5rem;
         }
 
         .service-card {
             min-width: 300px;
-            background: var(--deloitte-grey);
-            padding: 30px;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: 0.3s;
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
         }
 
         .service-card.selected {
             border-color: var(--deloitte-green);
-            background: #eef7dc;
+            background-color: #f7fee7;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(134, 188, 36, 0.1);
         }
 
-        .service-card h3 {
-            margin-bottom: 15px;
-            font-size: 20px;
-        }
-
-        .service-price {
-            font-weight: bold;
-            color: var(--deloitte-green);
-        }
-
-        .carousel-btns {
-            margin-top: 20px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-nav {
-            padding: 10px 20px;
-            background: var(--deloitte-black);
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        .calc-total {
-            background: var(--deloitte-black);
-            color: white;
-            padding: 20px;
-            font-size: 22px;
-            margin-top: 20px;
-            text-align: right;
-        }
-
-        /* Пакетные решения */
-        .packages-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .package-item {
-            border: 1px solid #ddd;
-            padding: 30px;
-        }
-
-        .package-item h3 {
-            background: var(--deloitte-green);
-            color: white;
-            display: inline-block;
-            padding: 5px 15px;
-            margin-bottom: 20px;
-        }
-
-        /* Кнопки контактов */
-        .contact-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 40px;
-        }
-
-        .cta-button {
-            padding: 15px 30px;
-            text-decoration: none;
-            font-weight: bold;
-            text-transform: uppercase;
-            text-align: center;
-            min-width: 200px;
-            transition: 0.3s;
-        }
-
-        .btn-max { background-color: #0052cc; color: white; }
-        .btn-imessage { background-color: #34c759; color: white; }
-        .btn-call { background-color: var(--deloitte-black); color: white; }
-        .cta-button:hover { opacity: 0.8; }
-
-        /* Футер */
-        footer {
-            background: var(--deloitte-grey);
-            padding: 40px 10%;
-            border-top: 4px solid var(--deloitte-green);
-            font-size: 14px;
-        }
-
-        .footer-info {
-            margin-bottom: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 32px; }
-            .service-card { min-width: 260px; }
+        .btn-active {
+            transform: scale(0.95);
+            opacity: 0.9;
         }
     </style>
 </head>
-<body>
+<body class="text-black">
 
-    <header>
-        <div class="logo">Альянс консалтинг «Гепард»<span>.</span></div>
-        <nav>
-            <a href="#about">О нас</a>
-            <a href="#services">Услуги</a>
-            <a href="#packages">Решения</a>
-            <a href="#contact">Контакты</a>
+<!-- ОВЕРЛЕЙ ВЫБОРА (как в твоем примере) -->
+<div id="entry-overlay" class="fixed inset-0 z-[9999] bg-white/80 backdrop-blur-xl flex items-center justify-center transition-all duration-700">
+    <div class="bg-white p-10 rounded-[2.5rem] shadow-2xl border border-gray-100 text-center max-w-lg w-[90%]">
+        <div class="mb-6 inline-block bg-black text-white px-4 py-1 text-xs font-bold tracking-widest uppercase">Welcome</div>
+        <h2 class="text-3xl font-extrabold mb-8">Альянс консалтинг «Гепард»<span>.</span></h2>
+        <div class="flex flex-col gap-4">
+            <button onclick="enterSite('Corporate')" 
+               class="bg-black text-white py-5 rounded-2xl text-xl font-bold hover:bg-[#86BC24] transition-colors shadow-lg">
+                Корпоративным клиентам
+            </button>
+            <button onclick="enterSite('Private')" 
+               class="border-2 border-black py-5 rounded-2xl text-xl font-bold hover:bg-gray-50 transition-colors">
+                Частная практика
+            </button>
+        </div>
+        <p class="mt-8 text-gray-400 text-sm italic">Экспертиза мирового уровня для вашего бизнеса</p>
+    </div>
+</div>
+
+<div id="main-content">
+
+<!-- ШАПКА -->
+<header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <div class="text-xl font-extrabold uppercase tracking-tighter">
+            Гепард <span class="text-[#86BC24]">Консалтинг</span> Групп
+        </div>
+        
+        <nav class="hidden md:flex gap-8 items-center font-semibold text-sm uppercase tracking-wider">
+            <a href="#about" class="hover:text-[#86BC24] transition-colors">О нас</a>
+            <a href="#services" class="hover:text-[#86BC24] transition-colors">Услуги</a>
+            <a href="#contact" class="bg-black text-white px-6 py-2 rounded-full hover:bg-[#86BC24] transition-all">Связаться</a>
         </nav>
-    </header>
+    </div>
+</header>
 
-    <main>
-        <section class="hero">
-            <h1>Лидерство в стратегии. Скорость в исполнении.</h1>
-            <p>Ваш надежный партнер в мире глобального консалтинга.</p>
-        </section>
-
-        <section id="about">
-            <h2>О нас</h2>
-            <p>Альянс консалтинг «Гепард» — это объединение экспертов высшего уровня. Мы помогаем бизнесу трансформироваться, используя передовые методологии и глубокую отраслевую экспертизу, аналогичную мировым лидерам отрасли.</p>
-        </section>
-
-        <section style="background: #f9f9f9;">
-            <h2>Индустрии</h2>
-            <p>Мы работаем в ключевых секторах экономики: Финансы, Технологии, Энергетика, Ритейл, Промышленность и ГУ.</p>
-        </section>
-
-        <section id="services">
-            <h2>Наши услуги</h2>
-            <p>Выберите интересующие услуги для предварительного расчета стоимости:</p>
-            
-            <div class="services-container">
-                <div class="services-track" id="track">
-                    <div class="service-card" onclick="toggleService(this, 150000)">
-                        <h3>Стратегический аудит</h3>
-                        <p>Глубокий анализ бизнес-процессов.</p>
-                        <p class="service-price">150 000 ₽</p>
-                    </div>
-                    <div class="service-card" onclick="toggleService(this, 200000)">
-                        <h3>IT Трансформация</h3>
-                        <p>Внедрение цифровых решений и AI.</p>
-                        <p class="service-price">200 000 ₽</p>
-                    </div>
-                    <div class="service-card" onclick="toggleService(this, 120000)">
-                        <h3>Налоговый консалтинг</h3>
-                        <p>Оптимизация и правовая поддержка.</p>
-                        <p class="service-price">120 000 ₽</p>
-                    </div>
-                    <div class="service-card" onclick="toggleService(this, 180000)">
-                        <h3>M&A Сопровождение</h3>
-                        <p>Слияния и поглощения под ключ.</p>
-                        <p class="service-price">180 000 ₽</p>
-                    </div>
-                    <div class="service-card" onclick="toggleService(this, 90000)">
-                        <h3>HR Брендинг</h3>
-                        <p>Поиск и удержание талантов.</p>
-                        <p class="service-price">90 000 ₽</p>
-                    </div>
-                    <div class="service-card" onclick="toggleService(this, 300000)">
-                        <h3>Выход на IPO</h3>
-                        <p>Полная подготовка компании.</p>
-                        <p class="service-price">300 000 ₽</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="carousel-btns">
-                <button class="btn-nav" onclick="moveSlide(-1)">← Назад</button>
-                <button class="btn-nav" onclick="moveSlide(1)">Вперед →</button>
-            </div>
-
-            <div class="calc-total">
-                Итоговая стоимость: <span id="totalPrice">0</span> ₽
-            </div>
-        </section>
-
-        <section id="packages">
-            <h2>Пакетные решения</h2>
-            <div class="packages-grid">
-                <div class="package-item">
-                    <h3>Старт</h3>
-                    <p>Для малого бизнеса и стартапов.</p>
-                    <ul>
-                        <li>Аудит 1 раз в год</li>
-                        <li>Консультации 24/7</li>
-                    </ul>
-                </div>
-                <div class="package-item">
-                    <h3>Бизнес</h3>
-                    <p>Для стабильно развивающихся компаний.</p>
-                    <ul>
-                        <li>Полное сопровождение</li>
-                        <li>Оптимизация налогов</li>
-                    </ul>
-                </div>
-                <div class="package-item">
-                    <h3>Корпорация</h3>
-                    <p>Индивидуальные решения для лидеров рынка.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="contact">
-            <h2>Связаться с нами</h2>
-            <p>Выберите удобный способ связи с нашим ведущим экспертом:</p>
-            <p style="font-size: 24px; font-weight: bold; margin: 15px 0;">
-                <a href="tel:89147128405" style="color: inherit; text-decoration: none;">8 914 712 84 05</a>
+<!-- HERO -->
+<section class="hero-bg h-[80vh] flex items-center text-white">
+    <div class="max-w-7xl mx-auto px-6 w-full">
+        <div class="deloitte-border pl-8 max-w-3xl">
+            <h1 class="text-5xl md:text-8xl font-black leading-none mb-8">
+                ГЛОБАЛЬНЫЙ <br><span class="text-[#86BC24]">ОПЫТ.</span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-10 opacity-80 font-light max-w-xl">
+                Альянс консалтинг «Гепард» предоставляет стратегические решения в области аудита, налогов и бизнес-трансформации.
             </p>
-            
-            <div class="contact-actions">
-                <a href="https://max.ru/u/f9LHodD0cOLfZNnm5fW88XXEncP36OwIrQF6_creXm_-DZT0g-LND_Hv5nc" class="cta-button btn-max">Чат в Максе</a>
-                <a href="imessage:89147128405" class="cta-button btn-imessage">iMessage</a>
-                <a href="tel:89147128405" class="cta-button btn-call">Позвонить</a>
+            <a href="#services" class="inline-block bg-[#86BC24] text-black font-bold px-10 py-5 rounded-sm hover:bg-white transition-all uppercase text-sm tracking-widest">
+                Наши направления
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- О НАС -->
+<section id="about" class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-20 items-center">
+        <div>
+            <span class="text-[#86BC24] font-bold tracking-widest uppercase text-sm">Кто мы</span>
+            <h2 class="text-4xl font-black mt-4 mb-8">Лидерство сквозь призму инноваций</h2>
+            <p class="text-lg text-gray-600 leading-relaxed mb-6">
+                Мы объединяем лучшие практики мирового консалтинга с глубоким пониманием региональной специфики. Наша цель — не просто давать советы, а обеспечивать измеримый рост вашего капитала и операционной эффективности.
+            </p>
+            <div class="grid grid-cols-2 gap-6">
+                <div class="border-t-2 border-gray-100 pt-4">
+                    <div class="text-3xl font-bold">150+</div>
+                    <div class="text-gray-500 text-sm">Успешных кейсов</div>
+                </div>
+                <div class="border-t-2 border-gray-100 pt-4">
+                    <div class="text-3xl font-bold">24/7</div>
+                    <div class="text-gray-500 text-sm">Поддержка партнеров</div>
+                </div>
             </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="footer-info">
-            <strong>Альянс консалтинг «Гепард»</strong><br>
-            Профессиональные услуги для вашего успеха.<br><br>
-            <strong>ИП Угловский Алексей Сергеевич</strong>
         </div>
-        <div style="color: #666;">
-            © 2024 Все права защищены. Дизайн в стиле мировых лидеров консалтинга.
+        <div class="relative">
+            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop" class="rounded-none shadow-2xl w-full h-[500px] object-cover" alt="Команда">
+            <div class="absolute -bottom-10 -left-10 bg-[#86BC24] p-10 hidden lg:block">
+                <p class="text-black font-bold text-xl italic leading-tight">"Скорость — наше <br>преимущество"</p>
+            </div>
         </div>
-    </footer>
+    </div>
+</section>
 
-    <script>
-        // Логика карусели
-        let currentIdx = 0;
-        const track = document.getElementById('track');
-        function moveSlide(dir) {
-            const cards = document.querySelectorAll('.service-card');
-            const maxIdx = cards.length - 2; // Показываем по 3 примерно
-            currentIdx += dir;
-            if (currentIdx < 0) currentIdx = 0;
-            if (currentIdx > maxIdx) currentIdx = maxIdx;
-            track.style.transform = `translateX(-${currentIdx * 320}px)`;
-        }
+<!-- УСЛУГИ И КАЛЬКУЛЯТОР -->
+<section id="services" class="py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6">
+        <h2 class="text-4xl font-black mb-4">Наши услуги</h2>
+        <p class="text-gray-500 mb-12">Выберите необходимые блоки для формирования индивидуального решения:</p>
+        
+        <div class="relative overflow-hidden mb-12">
+            <div class="carousel-track" id="serviceTrack">
+                <!-- 6 блоков услуг -->
+                <div class="service-card bg-white p-8 cursor-pointer" onclick="selectService(this, 120000)">
+                    <div class="text-4xl mb-6">📊</div>
+                    <h3 class="text-xl font-bold mb-3">Стратегический аудит</h3>
+                    <p class="text-gray-500 text-sm mb-6">Комплексная оценка рисков и поиск точек роста.</p>
+                    <span class="text-lg font-bold">120 000 ₽</span>
+                </div>
+                <div class="service-card bg-white p-8 cursor-pointer" onclick="selectService(this, 250000)">
+                    <div class="text-4xl mb-6">🔐</div>
+                    <h3 class="text-xl font-bold mb-3">Кибербезопасность</h3>
+                    <p class="text-gray-500 text-sm mb-6">Защита цифровых активов и инфраструктуры.</p>
+                    <span class="text-lg font-bold">250 000 ₽</span>
+                </div>
+                <div class="service-card bg-white p-8 cursor-pointer" onclick="selectService(this, 180000)">
+                    <div class="text-4xl mb-6">🏛️</div>
+                    <h3 class="text-xl font-bold mb-3">Налоговый консалтинг</h3>
+                    <p class="text-gray-500 text-sm mb-6">Оптимизация налогообложения и аудит.</p>
+                    <span class="text-lg font-bold">180 000 ₽</span>
+                </div>
+                <div class="service-card bg-white p-8 cursor-pointer" onclick="selectService(this, 300000)">
+                    <div class="text-4xl mb-6">🚀</div>
+                    <h3 class="text-xl font-bold mb-3">Цифровой прорыв</h3>
+                    <p class="text-gray-500 text-sm mb-6">Внедрение AI и автоматизация процессов.</p>
+                    <span class="text-lg font-bold">300 000 ₽</span>
+                </div>
+                <div class="service-card bg-white p-8 cursor-pointer" onclick="selectService(this, 150000)">
+                    <div class="text-4xl mb-6">🤝</div>
+                    <h3 class="text-xl font-bold mb-3">M&A Сопровождение</h3>
+                    <p class="text-gray-500 text-sm mb-6">Поддержка сделок слияния и поглощения.</p>
+                    <span class="text-lg font-bold">150 000 ₽</span>
+                </div>
+                <div class="service-card bg-white p-8 cursor-pointer" onclick="selectService(this, 95000)">
+                    <div class="text-4xl mb-6">💎</div>
+                    <h3 class="text-xl font-bold mb-3">HR Трансформация</h3>
+                    <p class="text-gray-500 text-sm mb-6">Развитие талантов и корпоративной культуры.</p>
+                    <span class="text-lg font-bold">95 000 ₽</span>
+                </div>
+            </div>
+        </div>
 
-        // Логика калькулятора
-        let total = 0;
-        function toggleService(element, price) {
-            if (element.classList.contains('selected')) {
-                element.classList.remove('selected');
-                total -= price;
-            } else {
-                element.classList.add('selected');
-                total += price;
-            }
-            document.getElementById('totalPrice').innerText = total.toLocaleString();
-        }
-    </script>
+        <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex gap-3">
+                <button onclick="moveCarousel(-1)" class="p-4 border border-black hover:bg-black hover:text-white transition-all text-xl">←</button>
+                <button onclick="moveCarousel(1)" class="p-4 border border-black hover:bg-black hover:text-white transition-all text-xl">→</button>
+            </div>
+            <div class="bg-black text-white p-8 rounded-none w-full md:w-auto min-w-[300px]">
+                <p class="text-gray-400 text-xs uppercase tracking-widest mb-2">Предварительная стоимость</p>
+                <div class="text-4xl font-bold"><span id="totalCost">0</span> ₽</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- КОНТАКТЫ -->
+<section id="contact" class="py-24 bg-white border-t border-gray-100">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+        <h2 class="text-5xl font-black mb-8">Готовы начать?</h2>
+        <p class="text-xl text-gray-500 mb-12">Свяжитесь с нами любым удобным способом для получения экспертной консультации</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Ссылки сделаны по вашему ТЗ -->
+            <a href="https://max.ru/u/f9LHodD0cOLfZNnm5fW88XXEncP36OwIrQF6_creXm_-DZT0g-LND_Hv5nc" 
+               class="bg-[#0052cc] text-white py-6 rounded-xl font-bold text-lg hover:shadow-xl transition-all flex items-center justify-center gap-2">
+                <span>💬</span> Чат в Максе
+            </a>
+            <a href="imessage:89147128405" 
+               class="bg-[#34c759] text-white py-6 rounded-xl font-bold text-lg hover:shadow-xl transition-all flex items-center justify-center gap-2">
+                <span>📱</span> iMessage
+            </a>
+            <a href="tel:89147128405" 
+               class="bg-black text-white py-6 rounded-xl font-bold text-lg hover:shadow-xl transition-all flex items-center justify-center gap-2">
+                <span>📞</span> Позвонить
+            </a>
+        </div>
+        <p class="mt-8 text-2xl font-bold tracking-tighter">8 914 712 84 05</p>
+    </div>
+</section>
+
+<!-- ФУТЕР -->
+<footer class="bg-black text-white py-20">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-start gap-12">
+        <div class="max-w-xs">
+            <div class="text-2xl font-bold mb-6 italic">GEPARD GROUP<span>.</span></div>
+            <p class="text-gray-500 text-sm leading-relaxed">
+                Индивидуальный предприниматель <br>
+                <span class="text-white font-semibold">Угловский Алексей Сергеевич</span>
+            </p>
+        </div>
+        <div class="grid grid-cols-2 gap-20">
+            <div>
+                <h4 class="text-[#86BC24] font-bold mb-6 uppercase text-xs tracking-widest">Меню</h4>
+                <ul class="space-y-4 text-sm text-gray-400">
+                    <li><a href="#about" class="hover:text-white transition-colors">О компании</a></li>
+                    <li><a href="#services" class="hover:text-white transition-colors">Услуги</a></li>
+                    <li><a href="#contact" class="hover:text-white transition-colors">Контакты</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-[#86BC24] font-bold mb-6 uppercase text-xs tracking-widest">Юридическая информация</h4>
+                <p class="text-xs text-gray-500 leading-relaxed">
+                    Все услуги предоставляются в соответствии с действующим законодательством РФ. ОГРНИП/ИНН предоставляются по запросу.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-6 mt-20 pt-8 border-t border-gray-900 text-center text-[10px] text-gray-600 uppercase tracking-[0.2em]">
+        © 2026 Альянс консалтинг «Гепард». Создано экспертами для экспертов.
+    </div>
+</footer>
+
+</div>
+
+<script>
+// ЛОГИКА ВХОДА (как в твоем примере)
+function enterSite(type) {
+    const overlay = document.getElementById('entry-overlay');
+    const content = document.getElementById('main-content');
+    
+    overlay.style.opacity = '0';
+    overlay.style.visibility = 'hidden';
+    content.style.filter = 'blur(0)';
+    document.body.style.overflow = 'auto'; 
+    console.log("Вход выполнен как: " + type);
+}
+
+// ЛОГИКА КАЛЬКУЛЯТОРА
+let currentTotal = 0;
+function selectService(element, price) {
+    if (element.classList.contains('selected')) {
+        element.classList.remove('selected');
+        currentTotal -= price;
+    } else {
+        element.classList.add('selected');
+        currentTotal += price;
+    }
+    document.getElementById('totalCost').innerText = currentTotal.toLocaleString('ru-RU');
+}
+
+// ЛОГИКА КАРУСЕЛИ
+let position = 0;
+const track = document.getElementById('serviceTrack');
+function moveCarousel(direction) {
+    const cardWidth = 324; // Ширина карточки + gap
+    const maxScroll = (6 - 3) * cardWidth; // 6 карточек, 3 видимых
+    
+    position -= direction * cardWidth;
+    
+    // Ограничения прокрутки
+    if (position > 0) position = 0;
+    if (Math.abs(position) > maxScroll) position = -maxScroll;
+    
+    track.style.transform = `translateX(${position}px)`;
+}
+
+// Анимация кнопок при нажатии
+document.querySelectorAll('a, button').forEach(btn => {
+    btn.addEventListener('pointerdown', () => btn.classList.add('btn-active'));
+    btn.addEventListener('pointerup', () => btn.classList.remove('btn-active'));
+    btn.addEventListener('pointerleave', () => btn.classList.remove('btn-active'));
+});
+</script>
+
 </body>
 </html>
