@@ -130,7 +130,7 @@
     <div class="max-w-7xl mx-auto px-6 w-full">
         <div class="deloitte-border pl-8 max-w-3xl">
             <h1 class="text-5xl md:text-8xl font-black leading-none mb-8 uppercase">
-                ГЛОБАЛЬНЫЙ <br><span class="text-[#86BC24]">ОПЫТ.</span>
+                ГЛОБАЛЬНЫЙ <br><span class="text-[#86BC24]">ОПЫТ</span>
             </h1>
             <p class="text-xl md:text-2xl mb-10 opacity-80 font-light max-w-xl">
                 Стратегические решения в области аудита, налогов и бизнес-трансформации.
@@ -163,6 +163,18 @@
         <div class="services-wrapper" id="serviceTrack">
             <!-- СТРАНИЦА 1 (9 услуг) -->
             <div class="services-page">
+                <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'Аудит', 120000)">
+                    <div class="text-2xl mb-2">📊</div>
+                    <h3 class="font-bold text-sm uppercase">Финансовый и налоговый Due Diligence</h3>
+                    <p class="text-[10px] text-gray-500 mb-4">Оценка рисков.</p>
+                    <span class="text-sm font-bold text-[#86BC24]">120 000 ₽</span>
+                </div>
+                <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'Аудит', 120000)">
+                    <div class="text-2xl mb-2">📊</div>
+                    <h3 class="font-bold text-sm uppercase">Аудит</h3>
+                    <p class="text-[10px] text-gray-500 mb-4">Оценка рисков.</p>
+                    <span class="text-sm font-bold text-[#86BC24]">120 000 ₽</span>
+                </div>
                 <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'Аудит', 120000)">
                     <div class="text-2xl mb-2">📊</div>
                     <h3 class="font-bold text-sm uppercase">Аудит</h3>
@@ -200,6 +212,15 @@
                     <p class="text-[10px] text-gray-500 mb-4">Культура.</p>
                     <span class="text-sm font-bold text-[#86BC24]">95 000 ₽</span>
                 </div>
+            </div>
+            <!-- СТРАНИЦА 2 (Пролистайте вправо) -->
+            <div class="services-page">
+                <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'ESG', 170000)">
+                    <div class="text-2xl mb-2">🌱</div>
+                    <h3 class="font-bold text-sm uppercase">ESG</h3>
+                    <p class="text-[10px] text-gray-500 mb-4">Экология.</p>
+                    <span class="text-sm font-bold text-[#86BC24]">170 000 ₽</span>
+                </div>
                 <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'Маркетинг', 110000)">
                     <div class="text-2xl mb-2">📈</div>
                     <h3 class="font-bold text-sm uppercase">Маркетинг</h3>
@@ -218,16 +239,6 @@
                     <p class="text-[10px] text-gray-500 mb-4">Цепи поставок.</p>
                     <span class="text-sm font-bold text-[#86BC24]">140 000 ₽</span>
                 </div>
-            </div>
-            <!-- СТРАНИЦА 2 (Пролистайте вправо) -->
-            <div class="services-page">
-                <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'ESG', 170000)">
-                    <div class="text-2xl mb-2">🌱</div>
-                    <h3 class="font-bold text-sm uppercase">ESG</h3>
-                    <p class="text-[10px] text-gray-500 mb-4">Экология.</p>
-                    <span class="text-sm font-bold text-[#86BC24]">170 000 ₽</span>
-                </div>
-                <!-- ... можно добавить еще 8 блоков здесь -->
             </div>
         </div>
 
