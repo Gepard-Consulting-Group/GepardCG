@@ -27,10 +27,11 @@
 
         .deloitte-border { border-left: 4px solid var(--deloitte-green); }
         
-        /* Исправленный блок Hero */
+        /* 1. ИСПРАВЛЕННЫЙ БЛОК HERO (С КАРТИНКОЙ) */
         .hero-bg {
-            background-color: #000; /* Запасной фон */
-            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('./hero-bg.jpg');
+            background-color: #1a1a1a; 
+            /* Чтобы заменить фото, поменяй ссылку в url() ниже */
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -45,15 +46,38 @@
             transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
-        /* Адаптивная сетка услуг: 1 колонка на мобилках, 3 на ПК */
-        .services-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
+        /* 2. НОВАЯ ЛИСТАЮЩАЯСЯ СЕТКА УСЛУГ */
+        .services-container {
+            display: flex;
+            overflow-x: auto; /* Включаем прокрутку по горизонтали */
+            gap: 1rem;
+            padding-bottom: 20px;
+            scroll-snap-type: x mandatory; /* Магнитный эффект при прокрутке */
+            scrollbar-width: thin; /* Тонкая полоса прокрутки для Firefox */
+            scrollbar-color: var(--deloitte-green) transparent;
         }
+
+        /* Стили полосы прокрутки для Chrome/Safari */
+        .services-container::-webkit-scrollbar {
+            height: 6px;
+        }
+        .services-container::-webkit-scrollbar-thumb {
+            background-color: var(--deloitte-green);
+            border-radius: 10px;
+        }
+
+        .service-card {
+            flex-shrink: 0; /* Чтобы карточки не сжимались */
+            scroll-snap-align: start; /* Остановка карточки по левому краю */
+            /* Мобильная версия: 3 карточки (чуть меньше 33.3%, чтобы учесть отступы) */
+            width: calc((100% - 2rem) / 3); 
+            min-width: 120px; /* Чтобы на совсем маленьких экранах текст не слипался */
+        }
+
         @media (min-width: 768px) {
-            .services-grid {
-                grid-template-columns: repeat(3, 1fr);
+            .service-card {
+                /* ПК версия: 9 карточек */
+                width: calc((100% - 8rem) / 9);
             }
         }
 
@@ -141,100 +165,89 @@
             </p>
         </div>
         <div class="relative">
-            <img src="about-team.jpg" class="rounded-none shadow-2xl w-full h-[500px] object-cover" alt="Команда">
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop" class="rounded-none shadow-2xl w-full h-[500px] object-cover" alt="Команда">
         </div>
     </div>
 </section>
     
 <!-- УСЛУГИ -->
-<section id="services" class="py-24 bg-gray-50">
+<section id="services" class="py-24 bg-gray-50 overflow-hidden">
     <div class="max-w-7xl mx-auto px-6">
         <h2 class="text-4xl font-black mb-8 uppercase tracking-tighter">Наши услуги</h2>
         
-        <div class="services-grid">
+        <!-- Изменили класс на services-container для работы прокрутки -->
+        <div class="services-container">
             <!-- Услуга 1 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'Финансовый Due Diligence', 250000)">
+            <div class="service-card glass-card p-4 cursor-pointer rounded-xl" onclick="toggleService(this, 'Финансовый Due Diligence', 250000)">
                 <div class="text-2xl mb-2">📊</div>
-                <h3 class="font-bold text-sm uppercase">Финансовый и налоговый Due Diligence</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Реальное состояние активов, скрытые долги, недоимки по налогам, риски доначислений от ФНС и чистота сделок за последние 3 года.</p>
-                <span class="text-sm font-bold text-[#86BC24]">250 000 ₽</span>
+                <h3 class="font-bold text-[10px] uppercase leading-tight">Финансовый и налоговый Due Diligence</h3>
+                <span class="text-[10px] font-bold text-[#86BC24]">250к ₽</span>
             </div>
             <!-- Услуга 2 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'Аудит управленческого учета', 45000)">
+            <div class="service-card glass-card p-4 cursor-pointer rounded-xl" onclick="toggleService(this, 'Аудит управленческого учета', 45000)">
                 <div class="text-2xl mb-2">📊</div>
-                <h3 class="font-bold text-sm uppercase">Аудит управленческого учета</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Корректность разнесения расходов по направлениям, точность расчета себестоимости, наличие кассовых разрывов и достоверность отчетов P&L (прибыли и убытки) и Cash Flow (движение денег).</p>
-                <span class="text-sm font-bold text-[#86BC24]">45 000 ₽</span>
+                <h3 class="font-bold text-[10px] uppercase leading-tight">Аудит управленческого учета</h3>
+                <span class="text-[10px] font-bold text-[#86BC24]">45к ₽</span>
             </div>
             <!-- Услуга 3 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'Комплаенс-аудит', 150000)">
+            <div class="service-card glass-card p-4 cursor-pointer rounded-xl" onclick="toggleService(this, 'Комплаенс-аудит', 150000)">
                 <div class="text-2xl mb-2">📊</div>
-                <h3 class="font-bold text-sm uppercase">Комплаенс-аудит</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Соответствие расчетов требованиям 44-ФЗ, 223-ФЗ, целевой характер траты субсидий, грантов или инвестиций в рамках Государственно-частного партнерства (ГЧП)</p>
-                <span class="text-sm font-bold text-[#86BC24]">150 000 ₽</span>
+                <h3 class="font-bold text-[10px] uppercase leading-tight">Комплаенс-аудит</h3>
+                <span class="text-[10px] font-bold text-[#86BC24]">150к ₽</span>
             </div>
             <!-- Услуга 4 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'IT-Защита', 250000)">
+            <div class="service-card glass-card p-4 cursor-pointer rounded-xl" onclick="toggleService(this, 'IT-Защита', 250000)">
                 <div class="text-2xl mb-2">🔐</div>
-                <h3 class="font-bold text-sm uppercase">IT-Защита</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Комплексная безопасность ваших данных.</p>
-                <span class="text-sm font-bold text-[#86BC24]">250 000 ₽</span>
+                <h3 class="font-bold text-[10px] uppercase leading-tight">IT-Защита</h3>
+                <span class="text-[10px] font-bold text-[#86BC24]">250к ₽</span>
             </div>
             <!-- Услуга 5 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'Налоги', 180000)">
+            <div class="service-card glass-card p-4 cursor-pointer rounded-xl" onclick="toggleService(this, 'Налоги', 180000)">
                 <div class="text-2xl mb-2">🏛️</div>
-                <h3 class="font-bold text-sm uppercase">Налоги</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Легальная оптимизация налогообложения.</p>
-                <span class="text-sm font-bold text-[#86BC24]">180 000 ₽</span>
+                <h3 class="font-bold text-[10px] uppercase leading-tight">Налоги</h3>
+                <span class="text-[10px] font-bold text-[#86BC24]">180к ₽</span>
             </div>
             <!-- Услуга 6 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'AI-Внедрение', 300000)">
+            <div class="service-card glass-card p-4 cursor-pointer rounded-xl" onclick="toggleService(this, 'AI-Внедрение', 300000)">
                 <div class="text-2xl mb-2">🚀</div>
-                <h3 class="font-bold text-sm uppercase">AI-Внедрение</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Автоматизация с помощью нейросетей.</p>
-                <span class="text-sm font-bold text-[#86BC24]">300 000 ₽</span>
+                <h3 class="font-bold text-[10px] uppercase leading-tight">AI-Внедрение</h3>
+                <span class="text-[10px] font-bold text-[#86BC24]">300к ₽</span>
             </div>
             <!-- Услуга 7 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'AI-Внедрение', 300000)">
+            <div class="service-card glass-card p-4 cursor-pointer rounded-xl" onclick="toggleService(this, 'M&A', 300000)">
                 <div class="text-2xl mb-2">🤝</div>
-                <h3 class="font-bold text-sm uppercase">M&A</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Слияние</p>
-                <span class="text-sm font-bold text-[#86BC24]">300 000 ₽</span>
+                <h3 class="font-bold text-[10px] uppercase leading-tight">M&A</h3>
+                <span class="text-[10px] font-bold text-[#86BC24]">300к ₽</span>
             </div>
             <!-- Услуга 8 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'AI-Внедрение', 300000)">
+            <div class="service-card glass-card p-4 cursor-pointer rounded-xl" onclick="toggleService(this, 'HR', 300000)">
                 <div class="text-2xl mb-2">💎</div>
-                <h3 class="font-bold text-sm uppercase">HR</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Культура</p>
-                <span class="text-sm font-bold text-[#86BC24]">300 000 ₽</span>
+                <h3 class="font-bold text-[10px] uppercase leading-tight">HR Культура</h3>
+                <span class="text-[10px] font-bold text-[#86BC24]">300к ₽</span>
             </div>
             <!-- Услуга 9 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'AI-Внедрение', 300000)">
+            <div class="service-card glass-card p-4 cursor-pointer rounded-xl" onclick="toggleService(this, 'EGS', 300000)">
                 <div class="text-2xl mb-2">🌱</div>
-                <h3 class="font-bold text-sm uppercase">EGS</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Экология</p>
-                <span class="text-sm font-bold text-[#86BC24]">300 000 ₽</span>
+                <h3 class="font-bold text-[10px] uppercase leading-tight">ESG Экология</h3>
+                <span class="text-[10px] font-bold text-[#86BC24]">300к ₽</span>
             </div>
-            <!-- Услуга 10 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'AI-Внедрение', 300000)">
+             <!-- Услуга 10 -->
+             <div class="service-card glass-card p-4 cursor-pointer rounded-xl" onclick="toggleService(this, 'Маркетинг', 300000)">
                 <div class="text-2xl mb-2">📈</div>
-                <h3 class="font-bold text-sm uppercase">Маркетинг</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Стратегия</p>
-                <span class="text-sm font-bold text-[#86BC24]">300 000 ₽</span>
+                <h3 class="font-bold text-[10px] uppercase leading-tight">Маркетинг</h3>
+                <span class="text-[10px] font-bold text-[#86BC24]">300к ₽</span>
             </div>
             <!-- Услуга 11 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'AI-Внедрение', 300000)">
+            <div class="service-card glass-card p-4 cursor-pointer rounded-xl" onclick="toggleService(this, 'Юристы', 300000)">
                 <div class="text-2xl mb-2">⚖️</div>
-                <h3 class="font-bold text-sm uppercase">Юристы</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Поддержка</p>
-                <span class="text-sm font-bold text-[#86BC24]">300 000 ₽</span>
+                <h3 class="font-bold text-[10px] uppercase leading-tight">Юристы</h3>
+                <span class="text-[10px] font-bold text-[#86BC24]">300к ₽</span>
             </div>
             <!-- Услуга 12 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'AI-Внедрение', 300000)">
+            <div class="service-card glass-card p-4 cursor-pointer rounded-xl" onclick="toggleService(this, 'Логистика', 300000)">
                 <div class="text-2xl mb-2">📦</div>
-                <h3 class="font-bold text-sm uppercase">Логистика</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Цепи поставок</p>
-                <span class="text-sm font-bold text-[#86BC24]">300 000 ₽</span>
+                <h3 class="font-bold text-[10px] uppercase leading-tight">Логистика</h3>
+                <span class="text-[10px] font-bold text-[#86BC24]">300к ₽</span>
             </div>
         </div>
 
@@ -340,15 +353,12 @@ function enterSite() {
 }
 
 function toggleService(el, name, price) {
-    // Ищем, есть ли уже такая услуга по имени
     const index = selectedServices.findIndex(s => s.name === name);
     
     if (index > -1) {
-        // Если нашли — удаляем из массива и убираем подсветку
         selectedServices.splice(index, 1);
         el.classList.remove('selected');
     } else {
-        // Если нет — добавляем объект и включаем подсветку
         selectedServices.push({ name, price, el });
         el.classList.add('selected');
     }
@@ -356,11 +366,9 @@ function toggleService(el, name, price) {
 }
 
 function updateCart() {
-    // Считаем сумму
     let total = selectedServices.reduce((sum, s) => sum + s.price, 0);
     document.getElementById('totalCost').innerText = total.toLocaleString('ru-RU');
     
-    // Показываем кнопку "Что выбрано", если есть хоть одна услуга
     const btn = document.getElementById('viewSelectedBtn');
     if (selectedServices.length > 0) {
         btn.classList.remove('hidden');
