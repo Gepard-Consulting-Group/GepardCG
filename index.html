@@ -27,13 +27,17 @@
 
         .deloitte-border { border-left: 4px solid var(--deloitte-green); }
         
-        /* Исправленный блок Hero с фоновым фото */
-        .hero-bg { 
+                /* Обновленный блок Hero с правильным синтаксисом */
+        .hero-bg {
+            background-color: #1a1a1a; /* Цвет на случай, если фото долго грузится */
+            /* Сначала идет затемнение, потом через запятую — путь к картинке */
             background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('hero-bg.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            width: 100%;
         }
+
 
         /* Эффект стекла для карточек */
         .glass-card {
