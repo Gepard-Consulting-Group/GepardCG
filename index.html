@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Альянс консалтинг «Гепард»</title>
     
-    <!-- Подключаем Tailwind CSS для стилей -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <style>
@@ -19,7 +18,6 @@
             scroll-behavior: smooth;
         }
         
-        /* Эффект размытия при входе */
         #main-content {
             filter: blur(15px);
             transition: filter 0.8s cubic-bezier(0.4, 0, 0.2, 1);
@@ -27,10 +25,8 @@
 
         .deloitte-border { border-left: 4px solid var(--deloitte-green); }
         
-                /* Обновленный блок Hero с правильным синтаксисом */
         .hero-bg {
-            background-color: #1a1a1a; /* Цвет на случай, если фото долго грузится */
-            /* Сначала идет затемнение, потом через запятую — путь к картинке */
+            background-color: #1a1a1a;
             background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('bg.jpg');
             background-size: cover;
             background-position: center;
@@ -38,8 +34,6 @@
             width: 100%;
         }
 
-
-        /* Эффект стекла для карточек */
         .glass-card {
             background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(12px);
@@ -48,44 +42,31 @@
             transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
-        /* --- НОВАЯ ЛОГИКА БЛОКА УСЛУГ --- */
+        /* УСЛУГИ: Сетка */
         .services-scroll-container {
             display: grid;
-            /* Фиксируем 3 ряда в высоту */
             grid-template-rows: repeat(3, auto); 
-            /* Заставляем элементы идти колонками вправо */
             grid-auto-flow: column; 
-            /* Ширина одной карточки на мобильных (1 в строку) */
             grid-auto-columns: 100%; 
             gap: 1.5rem;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             padding-bottom: 2rem;
-            scrollbar-width: thin;
-            scrollbar-color: var(--deloitte-green) transparent;
         }
 
-        /* Настройка для компьютерной версии (3 в строку) */
         @media (min-width: 768px) {
             .services-scroll-container {
-                /* Высчитываем ширину, чтобы влезло ровно 3 штуки с учетом отступов */
                 grid-auto-columns: calc((100% - 3rem) / 3); 
             }
         }
 
-        .services-scroll-container::-webkit-scrollbar {
-            height: 6px;
-        }
-        .services-scroll-container::-webkit-scrollbar-thumb {
-            background-color: var(--deloitte-green);
-            border-radius: 10px;
-        }
-
         .service-card {
+            position: relative;
             scroll-snap-align: start;
             border: 2px solid transparent;
             transition: all 0.3s ease;
             height: 100%;
+            padding-bottom: 4rem; /* Место для цены */
         }
 
         .service-card.selected {
@@ -93,10 +74,26 @@
             background: rgba(134, 188, 36, 0.1);
         }
 
-        .solution-card:hover {
-            transform: scale(1.03);
-            box-shadow: 0 0 30px rgba(134, 188, 36, 0.3);
-            border-color: var(--deloitte-green);
+        /* КОМПЛЕКСНЫЕ РЕШЕНИЯ: Сетка 3х2 */
+        .solutions-grid {
+            display: grid;
+            grid-template-rows: repeat(2, minmax(280px, 1fr));
+            grid-auto-flow: column;
+            grid-auto-columns: 100%;
+            gap: 1.5rem;
+            overflow-x: auto;
+            padding: 1rem 0;
+            scroll-snap-type: x mandatory;
+        }
+
+        @media (min-width: 768px) {
+            .solutions-grid {
+                grid-auto-columns: calc((100% - 3rem) / 3);
+            }
+        }
+
+        .solution-item {
+            scroll-snap-align: start;
         }
 
         .modal {
@@ -110,11 +107,13 @@
             justify-content: center;
         }
         .modal.active { display: flex; }
+        
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="text-black overflow-hidden" id="body-lock">
 
-<!-- ОВЕРЛЕЙ ВХОДА -->
 <div id="entry-overlay" class="fixed inset-0 z-[9999] bg-white/80 backdrop-blur-xl flex items-center justify-center transition-all duration-700">
     <div class="bg-white/90 p-10 rounded-[2.5rem] shadow-2xl border border-gray-100 text-center max-w-lg w-[90%] glass-card">
         <div class="mb-6 inline-block bg-black text-white px-4 py-1 text-xs font-bold tracking-widest uppercase">Добро пожаловать</div>
@@ -127,7 +126,6 @@
 
 <div id="main-content">
 
-<!-- ШАПКА -->
 <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <div class="text-xl font-extrabold uppercase tracking-tighter">
@@ -142,7 +140,6 @@
     </div>
 </header>
 
-<!-- HERO -->
 <section class="hero-bg h-[80vh] flex items-center text-white">
     <div class="max-w-7xl mx-auto px-6 w-full">
         <div class="deloitte-border pl-8 max-w-3xl">
@@ -156,303 +153,66 @@
     </div>
 </section>
 
-<!-- О НАС -->
-<section id="about" class="py-24 bg-white">
-    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-20 items-center">
-        <div>
-            <span class="text-[#86BC24] font-bold tracking-widest uppercase text-sm">Кто мы</span>
-            <h2 class="text-4xl font-black mt-4 mb-8">Лидерство сквозь призму инноваций</h2>
-            <p class="text-lg text-gray-600 leading-relaxed mb-6">
-                Мы объединяем лучшие практики мирового консалтинга с глубоким пониманием региональной специфики.
-            </p>
-        </div>
-        <div class="relative">
-            <img src="about-team.jpg" alt="Команда">
-        </div>
-    </div>
-</section>
-    
-<!-- УСЛУГИ -->
 <section id="services" class="py-24 bg-gray-50 overflow-hidden">
     <div class="max-w-7xl mx-auto px-6">
         <h2 class="text-4xl font-black mb-8 uppercase tracking-tighter">Наши услуги</h2>
         
-        <!-- Новый контейнер с горизонтальной прокруткой -->
-        <div class="services-scroll-container">
-            <!-- Услуга 1 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'Финансовый Due Diligence', 250000)">
-                <div class="text-2xl mb-2">📊</div>
-                <h3 class="font-bold text-sm uppercase">Финансовый и налоговый Due Diligence</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Реальное состояние активов, скрытые долги, недоимки по налогам, риски доначислений от ФНС и чистота сделок за последние 3 года.</p>
-                <span class="text-sm font-bold text-[#86BC24]">250 000 ₽</span>
+        <div class="services-scroll-container hide-scrollbar" id="services-list">
             </div>
-            <!-- Услуга 2 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'Аудит управленческого учета', 45000)">
-                <div class="text-2xl mb-2">📊</div>
-                <h3 class="font-bold text-sm uppercase">Аудит управленческого учета</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Корректность разнесения расходов по направлениям, точность расчета себестоимости, наличие кассовых разрывов и достоверность отчетов P&L и Cash Flow.</p>
-                <span class="text-sm font-bold text-[#86BC24]">45 000 ₽</span>
-            </div>
-            <!-- Услуга 3 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'Комплаенс-аудит', 150000)">
-                <div class="text-2xl mb-2">📊</div>
-                <h3 class="font-bold text-sm uppercase">Комплаенс-аудит</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Соответствие расчетов требованиям 44-ФЗ, 223-ФЗ, целевой характер траты субсидий, грантов или инвестиций в рамках ГЧП.</p>
-                <span class="text-sm font-bold text-[#86BC24]">150 000 ₽</span>
-            </div>
-            <!-- Услуга 4 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'IT-Защита', 250000)">
-                <div class="text-2xl mb-2">🔐</div>
-                <h3 class="font-bold text-sm uppercase">Аудит кибербезопасности и защита КИИ</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Анализ уязвимостей инфраструктуры, проверка защиты торговых терминалов и оценка соответствия требованиям ФСТЭК/ФСБ</p>
-                <span class="text-sm font-bold text-[#86BC24]">150 000 ₽</span>
-            </div>
-            <!-- Услуга 5 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'IT-Защита', 250000)">
-                <div class="text-2xl mb-2">🔐</div>
-                <h3 class="font-bold text-sm uppercase">Внедрение DLP-систем и защита от утечек</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Развертывание программного комплекса для контроля каналов передачи данных (почта, мессенджеры, флешки) и предотвращения слива инсайдерской информации сотрудниками.</p>
-                <span class="text-sm font-bold text-[#86BC24]">80 000 ₽</span>
-            </div>
-            <!-- Услуга 6 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'IT-Защита', 250000)">
-                <div class="text-2xl mb-2">🔐</div>
-                <h3 class="font-bold text-sm uppercase">Развертывание отказоустойчивого ИТ-контура</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Создание зашифрованных каналов связи, резервных копий в защищенных облаках РФ и настройка систем защиты от DDoS-атак на ИТ-ресурсы организатора.</p>
-                <span class="text-sm font-bold text-[#86BC24]">120 000 ₽</span>
-            </div>
-            <!-- Услуга 7 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'Налоги', 180000)">
-                <div class="text-2xl mb-2">🏛️</div>
-                <h3 class="font-bold text-sm uppercase">Налоговое структурирование инвест-платформ и СПВ</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Разработка легальной модели разделения потоков (управление, комиссии, прибыль инвесторов) с интеграцией льгот Свободного порта Владивосток (СПВ) или ТОР (сниженный налог на прибыль, 7.6% страховых взносов вместо 30%).</p>
-                <span class="text-sm font-bold text-[#86BC24]">200 000 ₽</span>
-            </div>
-            <!-- Услуга 8 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'Налоги', 180000)">
-                <div class="text-2xl mb-2">🏛️</div>
-                <h3 class="font-bold text-sm uppercase">Сопровождение КИК и трансграничных расчетов</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Налоговое консультирование по контролируемым иностранным компаниям (КИК), отчетности в ФНС и структурированию потоков через дружественные юрисдикции Азии (Китай, Гонконг, ОАЭ) в условиях санкций.</p>
-                <span class="text-sm font-bold text-[#86BC24]">120 000 ₽</span>
-            </div>
-            <!-- Услуга 9 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'Налоги', 180000)">
-                <div class="text-2xl mb-2">🏛️</div>
-                <h3 class="font-bold text-sm uppercase">Налоговый аудит и защита при проверках ФНС</h3>
-                <p class="text-[10px] text-gray-500 mb-4"> Предпроверочный анализ договоров с инвесторами и контрагентами на предмет признаков «необоснованной налоговой выгоды» (ст. 54.1 НК РФ) и подготовка ответов на требования ИФНС по Приморскому краю.</p>
-                <span class="text-sm font-bold text-[#86BC24]">180 000 ₽</span>
-            </div>
-            <!-- Услуга 10 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'AI-Внедрение', 300000)">
-                <div class="text-2xl mb-2">🚀</div>
-                <h3 class="font-bold text-sm uppercase">Разработка AI-ассистентов для скоринга и аналитики рынков</h3>
-                <p class="text-[10px] text-gray-500 mb-4"> Создание локальных или облачных AI-агентов на базе больших языковых моделей (LLM) для автоматического сбора, суммаризации новостей АТР (Китай, Южная Корея, Япония) и первичной оценки инвестиционных проектов.</p>
-                <span class="text-sm font-bold text-[#86BC24]">250 000 ₽</span>
-            </div>
-            <!-- Услуга 11 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'AI-Внедрение', 300000)">
-                <div class="text-2xl mb-2">🚀</div>
-                <h3 class="font-bold text-sm uppercase">Внедрение AI-ботов для клиентского сервиса и продаж (Onboarding)</h3>
-                <p class="text-[10px] text-gray-500 mb-4"> Интеграция умных ИИ-помощников в CRM-систему, Telegram и сайт для квалификации потенциальных инвесторов, проведения первичного анкетирования и ответов на частые вопросы 24/7.</p>
-                <span class="text-sm font-bold text-[#86BC24]">100 000 ₽</span>
-            </div>
-            <!-- Услуга 12 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'AI-Внедрение', 300000)">
-                <div class="text-2xl mb-2">🚀</div>
-                <h3 class="font-bold text-sm uppercase">Автоматизация бэк-офиса и генерации отчетности (AI-RPA)</h3>
-                <p class="text-[10px] text-gray-500 mb-4"> Внедрение интеллектуальных систем для распознавания документов, автоматического составления типовых отчетов для инвесторов, формирования аналитических записок и заполнения договоров.</p>
-                <span class="text-sm font-bold text-[#86BC24]">180 000 ₽</span>
-            </div>
-            <!-- Услуга 13 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'M&A', 300000)">
-                <div class="text-2xl mb-2">🤝</div>
-                <h3 class="font-bold text-sm uppercase">Комплексный аудит инвестиционных объектов (Due Diligence)</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Финансовая, налоговая, юридическая и операционная проверка бизнеса перед покупкой или продажей силами локальных и привлеченных экспертов.</p>
-                <span class="text-sm font-bold text-[#86BC24]">250 000 ₽</span>
-            </div>
-            <!-- Услуга 14 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'M&A', 300000)">
-                <div class="text-2xl mb-2">🤝</div>
-                <h3 class="font-bold text-sm uppercase">Структурирование и юридическое сопровождение сделок M&A</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Разработка архитектуры сделки, подготовка корпоративных договоров, соглашений акционеров (SHA), опционов, организация безопасных расчетов (аккредитивы, эскроу) и регистрация изменений.</p>
-                <span class="text-sm font-bold text-[#86BC24]">300 000 ₽</span>
-            </div>
-            <!-- Услуга 15 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'M&A', 300000)">
-                <div class="text-2xl mb-2">🤝</div>
-                <h3 class="font-bold text-sm uppercase">Поиск активов и привлечение финансирования (M&A брокеридж)</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Сканирование рынка Приморья под мандат инвестора, поиск недооцененных или стрессовых активов, проведение переговоров с собственниками и организация синдицированных сделок (создание пула инвесторов).</p>
-                <span class="text-sm font-bold text-[#86BC24]">100 000 ₽</span>
-            </div>
-            <!-- Услуга 16 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'HR', 300000)">
-                <div class="text-2xl mb-2">💎</div>
-                <h3 class="font-bold text-sm uppercase">Разработка систем нематериальной мотивации и EVP (ценностного предложения)</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Аудит текущей корпоративной культуры, формулирование ценностей компании и создание уникального ценностного предложения работодателя (EVP) для удержания ключевых сотрудников (аналитиков, трейдеров) без бесконечного роста зарплат.</p>
-                <span class="text-sm font-bold text-[#86BC24]">120 000 ₽</span>
-            </div>
-            <!-- Услуга 17 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'HR', 300000)">
-                <div class="text-2xl mb-2">💎</div>
-                <h3 class="font-bold text-sm uppercase">Проектирование грейдинга и прозрачной культуры (KPI/OKRs)</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Создание матрицы компетенций (грейдов), внедрение системы оценки эффективности по OKR (Objectives and Key Results) и увязка результатов с бонусами от прибыли фонда (LTI/фантомные доли).</p>
-                <span class="text-sm font-bold text-[#86BC24]">150 000 ₽</span>
-            </div>
-            <!-- Услуга 18 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'HR', 300000)">
-                <div class="text-2xl mb-2">💎</div>
-                <h3 class="font-bold text-sm uppercase">Внедрение программ психологического благополучия и Well-being</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Интеграция практик против выгорания (особенно актуально для трейдеров и инвест-аналитиков), организация обучения руководителей экологичному менеджменту и построение культуры психологической безопасности.</p>
-                <span class="text-sm font-bold text-[#86BC24]">80 000 ₽</span>
-            </div>
-            <!-- Услуга 19 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'ESG', 300000)">
-                <div class="text-2xl mb-2">🌱</div>
-                <h3 class="font-bold text-sm uppercase">ESG-аудит и подготовка нефинансовой отчетности</h3>
-                <p class="text-[10px] text-gray-500 mb-4">ESG-аудит и подготовка нефинансовой отчетности</p>
-                <span class="text-sm font-bold text-[#86BC24]">250 000 ₽</span>
-            </div>
-            <!-- Услуга 20 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'ESG', 300000)">
-                <div class="text-2xl mb-2">🌱</div>
-                <h3 class="font-bold text-sm uppercase">Консалтинг по углеродному регулированию и климатическим проектам</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Расчет парникового следа компании (Scope 1, 2, 3), разработка стратегии декарбонизации и юридическое сопровождение регистрации климатических проектов на российском углеродном рынке (актуально с учетом развития Сахалинского эксперимента в ДФО).</p>
-                <span class="text-sm font-bold text-[#86BC24]">300 000 ₽</span>
-            </div>
-            <!-- Услуга 21 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'ESG', 300000)">
-                <div class="text-2xl mb-2">🌱</div>
-                <h3 class="font-bold text-sm uppercase">Разработка систем экологического менеджмента (СЭМ) по ISO 14001</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Проектирование, внедрение и подготовка к сертификации системы управления экологическими рисками внутри компании или на подконтрольных фонду предприятиях.</p>
-                <span class="text-sm font-bold text-[#86BC24]">180 000 ₽</span>
-            </div>
-            <!-- Услуга 22 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'Маркетинг', 300000)">
-                <div class="text-2xl mb-2">📈</div>
-                <h3 class="font-bold text-sm uppercase">Разработка стратегии позиционирования и личного бренда (Personal Branding)</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Формирование авторитетного имиджа основателя фонда/консалтинга в медиа-пространстве (экспертные статьи, Telegram-канал, выступления на деловых площадках ДФО вроде ВЭФ).</p>
-                <span class="text-sm font-bold text-[#86BC24]">120 000 ₽</span>
-            </div>
-            <!-- Услуга 23 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'Маркетинг', 300000)">
-                <div class="text-2xl mb-2">📈</div>
-                <h3 class="font-bold text-sm uppercase">Организация закрытых бизнес-мероприятий и нетворкинга (Event-маркетинг)</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Организация под ключ закрытых инвестиционных ужинов, бизнес-завтраков во Владивостоке или профильных вебинаров для презентации кейсов и аналитики рынка потенциальным клиентам.</p>
-                <span class="text-sm font-bold text-[#86BC24]">100 000 ₽</span>
-            </div>
-            <!-- Услуга 24 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'Маркетинг', 300000)">
-                <div class="text-2xl mb-2">📈</div>
-                <h3 class="font-bold text-sm uppercase">Настройка сквозной аналитики и Account-Based Marketing (ABM)</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Внедрение маркетинга ключевых клиентов — точечная реклама и прогрев конкретных крупных компаний региона (логистика, ВЭД, добыча) с настройкой сквозной аналитики от клика до сделки.</p>
-                <span class="text-sm font-bold text-[#86BC24]">150 000 ₽</span>
-            </div>
-            <!-- Услуга 25 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'Юристы', 300000)">
-                <div class="text-2xl mb-2">⚖️</div>
-                <h3 class="font-bold text-sm uppercase">Разработка правовой модели фонда и договоров инвестирования</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Создание юридической архитектуры для приема и распределения средств (через договоры инвестиционного займа, опционы, ПИФы или инвест-платформы) в рамках законов РФ.</p>
-                <span class="text-sm font-bold text-[#86BC24]">200 000 ₽</span>
-            </div>
-            <!-- Услуга 26 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'Юристы', 300000)">
-                <div class="text-2xl mb-2">⚖️</div>
-                <h3 class="font-bold text-sm uppercase">Санкционный комплаенс и правовое сопровождение ВЭД</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Юридическая экспертиза цепочек поставок и платежей, разработка безопасных контрактов с контрагентами из АТР (Китай, Вьетнам, ОАЭ) и защита активов от блокировок.</p>
-                <span class="text-sm font-bold text-[#86BC24]">150 000 ₽</span>
-            </div>
-            <!-- Услуга 27 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'Юристы', 300000)">
-                <div class="text-2xl mb-2">⚖️</div>
-                <h3 class="font-bold text-sm uppercase">Корпоративное право и досудебное разрешение споров (Litigation)</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Составление акционерных соглашений (SHA), урегулирование конфликтов между соинвесторами, защита прав мажоритариев/миноритариев и представление интересов в Арбитражном суде Приморского края.</p>
-                <span class="text-sm font-bold text-[#86BC24]">100 000 ₽</span>
-            </div>
-            <!-- Услуга 28 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'Логистика', 300000)">
-                <div class="text-2xl mb-2">📦</div>
-                <h3 class="font-bold text-sm uppercase">Аудит и оптимизация мультимодальных цепочек поставок</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Анализ текущих маршрутов (море, ж/д, авто), поиск «узких мест» на стыках портов и железной дороги Приморья, выбор оптимальных терминалов и складов временного хранения (СВХ).</p>
-                <span class="text-sm font-bold text-[#86BC24]">150 000 ₽</span>
-            </div>
-            <!-- Услуга 29 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'Логистика', 300000)">
-                <div class="text-2xl mb-2">📦</div>
-                <h3 class="font-bold text-sm uppercase">Таможенный консалтинг и аудит рисков (ВЭД)</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Анализ правильности кодов ТН ВЭД, проверка таможенной стоимости товаров, подготовка документов для Владивостокской и Дальневосточной оперативной таможен, минимизация рисков корректировки таможенной стоимости (КТС).</p>
-                <span class="text-sm font-bold text-[#86BC24]">100 000 ₽</span>
-            </div>
-            <!-- Услуга 30 -->
-            <div class="service-card glass-card p-6 cursor-pointer rounded-xl" onclick="toggleService(this, 'Логистика', 300000)">
-                <div class="text-2xl mb-2">📦</div>
-                <h3 class="font-bold text-sm uppercase">Построение цепочек «под ключ» через транзитные страны</h3>
-                <p class="text-[10px] text-gray-500 mb-4">Проектирование сложных логистических схем с использованием инфраструктуры приграничных сухих портов (Хуньчунь, Суйфэньхэ) и транзитных хабов (Казахстан, ОАЭ) для обхода инфраструктурных ограничений.</p>
-                <span class="text-sm font-bold text-[#86BC24]">200 000 ₽</span>
-            </div>
-        </div>
 
-        <!-- КОРЗИНА -->
         <div class="mt-8 flex flex-col md:flex-row justify-end items-center gap-6">
             <button id="viewSelectedBtn" onclick="openSelectedModal()" class="hidden w-full md:w-auto bg-[#86BC24] text-black px-8 py-3 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-black hover:text-white transition-all">Что выбрано</button>
-            <div class="bg-black text-white p-6 glass-card min-w-[250px] text-right w-full md:w-auto">
+            <div class="bg-black text-white p-6 glass-card min-w-[300px] text-right w-full md:w-auto relative overflow-hidden">
+                <div id="discountBadge" class="absolute top-0 left-0 bg-[#86BC24] text-black text-[10px] font-bold px-3 py-1 hidden uppercase">Скидка применена</div>
                 <p class="text-[10px] uppercase opacity-50">Итоговая стоимость</p>
-                <div class="text-3xl font-bold"><span id="totalCost">0</span> ₽</div>
+                <div class="flex flex-col items-end">
+                    <span id="oldTotal" class="text-sm line-through opacity-40 hidden">0 ₽</span>
+                    <div class="text-3xl font-bold"><span id="totalCost">0</span> ₽</div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- КОМПЛЕКСНЫЕ РЕШЕНИЯ -->
-<section id="solutions" class="py-24 bg-white">
+<section id="solutions" class="py-24 bg-white overflow-hidden">
     <div class="max-w-7xl mx-auto px-6">
         <h2 class="text-4xl font-black mb-12 uppercase tracking-tighter text-center">Комплексные решения</h2>
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <script>
-                const packages = ['Выход из «серой» зоны без страха блокировок', 'Получение соцконтракта на открытие дела', 'Первая закупка оборудования в лизинг', 'Масштабирование и переход на ИП', 'Легализация доходов от субаренды (посуточно)', 'Оформление отношений с крупным заказчиком', 'Финансовый план для товарного маркетплейса (WB/Ozon)', 'Финансовая модель для частного мастера (бьюти/ремонт)'];
-                const prices = ['15 000', '25 000', '20 000', '18 000', '30 000', '12 000', '25 000', '15 000'];
-                
-                packages.forEach((pkg, i) => {
-                    document.write(`
-                        <div class="solution-card glass-card p-8 flex flex-col justify-between border-t-4 ${i % 2 === 0 ? 'border-black' : 'border-[#86BC24]'}">
-                            <div>
-                                <h3 class="text-xl font-bold mb-2 uppercase">${pkg}</h3>
-                                <p class="text-xs text-gray-500 italic mb-6">Профессиональный пакет №${i+1}</p>
-                            </div>
-                            <div>
-                                <div class="text-2xl font-black mb-6">${prices[i]} ₽</div>
-                                <button onclick="openOrderModal('${pkg}')" class="w-full py-3 bg-black text-white font-bold uppercase text-[10px] tracking-widest hover:bg-[#86BC24] transition-all">Выбрать пакет</button>
-                            </div>
-                        </div>
-                    `);
-                });
-            </script>
+        
+        <div id="solutions-main-menu" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            </div>
+
+        <div id="solutions-content-view" class="hidden">
+            <div class="flex items-center justify-between border-b-2 border-black pb-4 mb-8">
+                <button onclick="navSolution(-1)" class="p-2 hover:text-[#86BC24] transition-all font-bold text-xl">←</button>
+                <h3 id="current-solution-title" class="text-sm md:text-xl font-black uppercase tracking-widest text-center">Раздел</h3>
+                <button onclick="navSolution(1)" class="p-2 hover:text-[#86BC24] transition-all font-bold text-xl">→</button>
+            </div>
+            
+            <div id="solutions-items-grid" class="solutions-grid hide-scrollbar">
+                </div>
+            
+            <div class="mt-8 text-center">
+                <button onclick="backToSolutions()" class="text-xs uppercase tracking-widest font-bold opacity-40 hover:opacity-100 transition-all underline">Назад ко всем категориям</button>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- КОНТАКТЫ -->
 <section id="contact" class="py-24 bg-gray-50">
     <div class="max-w-4xl mx-auto px-6 text-center">
         <h2 class="text-5xl font-black mb-12 uppercase tracking-tighter">Готовы начать?</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <a href="https://max.ru/u/f9LHodD0cOLfZNnm5fW88XXEncP36OwIrQF6_creXm_-DZT0g-LND_Hv5nc" 
-               class="bg-[#0052cc] text-white py-6 rounded-xl font-bold hover:shadow-xl transition-all">Чат в Максе</a>
-            <a href="imessage:89147128405" 
-               class="bg-[#34c759] text-white py-6 rounded-xl font-bold hover:shadow-xl transition-all">iMessage</a>
-            <a href="tel:89147128405" 
-               class="bg-black text-white py-6 rounded-xl font-bold hover:shadow-xl transition-all">Позвонить</a>
+            <a href="https://max.ru/u/f9LHodD0cOLfZNnm5fW88XXEncP36OwIrQF6_creXm_-DZT0g-LND_Hv5nc" class="bg-[#0052cc] text-white py-6 rounded-xl font-bold hover:shadow-xl transition-all">Чат в Максе</a>
+            <a href="imessage:89147128405" class="bg-[#34c759] text-white py-6 rounded-xl font-bold hover:shadow-xl transition-all">iMessage</a>
+            <a href="tel:89147128405" class="bg-black text-white py-6 rounded-xl font-bold hover:shadow-xl transition-all">Позвонить</a>
         </div>
     </div>
 </section>
     
-<!-- ФУТЕР -->
-<footer class="bg-black text-white py-10 border-t border-gray-900">
-    <div class="max-w-7xl mx-auto px-6 text-center text-[10px] text-gray-600 uppercase tracking-[0.2em]">
-        © 2026 Альянс консалтинг «Гепард». Создано экспертами для экспертов.
-    </div>
+<footer class="bg-black text-white py-10 border-t border-gray-900 text-center text-[10px] text-gray-600 uppercase tracking-[0.2em]">
+    © 2026 Альянс консалтинг «Гепард». Создано экспертами для экспертов.
 </footer>
 
-<!-- МОДАЛЬНОЕ ОКНО ЗАКАЗА ПАКЕТА -->
 <div id="orderModal" class="modal">
     <div class="bg-white p-10 rounded-3xl max-w-sm w-full mx-4 shadow-2xl text-center">
         <h3 id="modalPkgTitle" class="text-2xl font-black mb-6 uppercase">Пакет</h3>
@@ -465,11 +225,13 @@
     </div>
 </div>
 
-<!-- МОДАЛЬНОЕ ОКНО КОРЗИНЫ -->
 <div id="selectedModal" class="modal">
     <div class="bg-white p-10 rounded-3xl max-w-md w-full mx-4 shadow-2xl">
         <h3 class="text-2xl font-black mb-6 uppercase">Выбранные услуги</h3>
         <div id="selectedList" class="space-y-3 mb-8 max-h-60 overflow-y-auto pr-2"></div>
+        <div class="border-t pt-6 text-right mb-4">
+            <p id="modalDiscountInfo" class="text-[#86BC24] font-bold text-xs uppercase mb-2"></p>
+        </div>
         <div class="border-t pt-6">
             <button onclick="sendCustomOrder()" class="w-full bg-[#86BC24] text-black py-4 rounded-xl font-bold uppercase text-xs tracking-widest hover:bg-black hover:text-white transition-all">Оформить пакет услуг</button>
             <button onclick="closeModals()" class="w-full mt-4 text-gray-400 text-xs uppercase tracking-widest">Закрыть</button>
@@ -480,8 +242,65 @@
 </div>
 
 <script>
+// --- ДАННЫЕ УСЛУГ ---
+const servicesData = [
+    { name: "Финансовый Due Diligence", price: 250000, desc: "Реальное состояние активов, скрытые долги, недоимки по налогам.", icon: "📊" },
+    { name: "Аудит управленческого учета", price: 45000, desc: "Корректность разнесения расходов, кассовые разрывы.", icon: "📊" },
+    { name: "Комплаенс-аудит", price: 150000, desc: "Соответствие расчетов требованиям 44-ФЗ, 223-ФЗ.", icon: "📊" },
+    { name: "Аудит кибербезопасности", price: 150000, desc: "Анализ уязвимостей инфраструктуры и защита КИИ.", icon: "🔐" },
+    { name: "Внедрение DLP-систем", price: 80000, desc: "Контроль каналов передачи данных и защита от утечек.", icon: "🔐" },
+    { name: "Отказоустойчивый ИТ-контур", price: 120000, desc: "Зашифрованные каналы связи и защита от DDoS.", icon: "🔐" },
+    { name: "Налоговое структурирование", price: 200000, desc: "Разработка легальной модели с интеграцией льгот СПВ.", icon: "🏛️" },
+    { name: "Сопровождение КИК", price: 120000, desc: "Отчетность по иностранным компаниям и расчеты в Азии.", icon: "🏛️" },
+    { name: "Налоговый аудит", price: 180000, desc: "Предпроверочный анализ и защита при проверках ФНС.", icon: "🏛️" }
+    // ... можно добавить остальные 21 услугу аналогично
+];
+
+// --- ДАННЫЕ КОМПЛЕКСНЫХ РЕШЕНИЙ ---
+const solutionsData = [
+    { id: 'start', title: 'Для тех кто хочет начать свое дело', items: [
+        { name: 'Выход из серой зоны', price: 15000 },
+        { name: 'Соцконтракт на открытие', price: 25000 },
+        { name: 'Лизинг оборудования', price: 20000 },
+        { name: 'Первый финплан', price: 18000 },
+        { name: 'Регистрация и выбор СНО', price: 10000 },
+        { name: 'Пакет документов для старта', price: 12000 },
+        { name: 'Бизнес-модель 2026', price: 30000 }
+    ]},
+    { id: 'self', title: 'Для самозанятых', items: [
+        { name: 'Легализация субаренды', price: 30000 },
+        { name: 'Договоры с заказчиками', price: 12000 },
+        { name: 'Финмодель для мастера', price: 15000 },
+        { name: 'Налоговая оптимизация НПД', price: 8000 }
+    ]},
+    { id: 'ip', title: 'Для ИП', items: [
+        { name: 'Масштабирование бизнеса', price: 50000 },
+        { name: 'Аудит деятельности ИП', price: 35000 },
+        { name: 'Кадровый учет ИП', price: 20000 }
+    ]},
+    { id: 'comm', title: 'Для Коммерческих организаций', items: [
+        { name: 'Оптимизация налогов ООО', price: 150000 },
+        { name: 'Масштабирование в АТР', price: 300000 }
+    ]},
+    { id: 'nonprofit', title: 'Для Некоммерческих организаций', items: [
+        { name: 'Грантовая отчетность', price: 45000 }
+    ]},
+    { id: 'gov', title: 'Для Государственных структур', items: [
+        { name: 'Аудит эффективности', price: 500000 }
+    ]},
+    { id: 'ao', title: 'Для Акционерных обществ', items: [
+        { name: 'Корпоративное управление', price: 400000 }
+    ]}
+];
+
 let selectedServices = [];
-let currentPkg = '';
+let currentSolutionIdx = 0;
+
+// ИНИЦИАЛИЗАЦИЯ
+window.onload = () => {
+    renderServices();
+    renderSolutionMenu();
+};
 
 function enterSite() {
     document.getElementById('entry-overlay').style.opacity = '0';
@@ -492,9 +311,25 @@ function enterSite() {
     }, 700);
 }
 
+// ЛОГИКА УСЛУГ
+function renderServices() {
+    const container = document.getElementById('services-list');
+    servicesData.forEach(s => {
+        const div = document.createElement('div');
+        div.className = "service-card glass-card p-6 cursor-pointer rounded-xl flex flex-col";
+        div.onclick = function() { toggleService(this, s.name, s.price); };
+        div.innerHTML = `
+            <div class="text-2xl mb-2">${s.icon}</div>
+            <h3 class="font-bold text-sm uppercase mb-2">${s.name}</h3>
+            <p class="text-[10px] text-gray-500 flex-grow">${s.desc}</p>
+            <div class="absolute bottom-4 right-4 text-xl font-extrabold text-[#86BC24]">${s.price.toLocaleString()} ₽</div>
+        `;
+        container.appendChild(div);
+    });
+}
+
 function toggleService(el, name, price) {
     const index = selectedServices.findIndex(s => s.name === name);
-    
     if (index > -1) {
         selectedServices.splice(index, 1);
         el.classList.remove('selected');
@@ -507,16 +342,89 @@ function toggleService(el, name, price) {
 
 function updateCart() {
     let total = selectedServices.reduce((sum, s) => sum + s.price, 0);
-    document.getElementById('totalCost').innerText = total.toLocaleString('ru-RU');
+    let count = selectedServices.length;
+    let discount = 0;
+
+    if (count >= 3 && count <= 6) discount = 0.15;
+    else if (count > 6) discount = 0.30;
+
+    const finalTotal = total * (1 - discount);
     
-    const btn = document.getElementById('viewSelectedBtn');
-    if (selectedServices.length > 0) {
-        btn.classList.remove('hidden');
+    document.getElementById('totalCost').innerText = Math.round(finalTotal).toLocaleString('ru-RU');
+    
+    const oldTotalEl = document.getElementById('oldTotal');
+    const badge = document.getElementById('discountBadge');
+    
+    if (discount > 0) {
+        oldTotalEl.innerText = total.toLocaleString() + ' ₽';
+        oldTotalEl.classList.remove('hidden');
+        badge.innerText = `Скидка ${discount * 100}%`;
+        badge.classList.remove('hidden');
     } else {
-        btn.classList.add('hidden');
+        oldTotalEl.classList.add('hidden');
+        badge.classList.add('hidden');
     }
+
+    const btn = document.getElementById('viewSelectedBtn');
+    btn.classList.toggle('hidden', count === 0);
 }
 
+// ЛОГИКА КОМПЛЕКСНЫХ РЕШЕНИЙ
+function renderSolutionMenu() {
+    const menu = document.getElementById('solutions-main-menu');
+    menu.innerHTML = '';
+    solutionsData.forEach((sol, index) => {
+        const btn = document.createElement('button');
+        btn.className = "glass-card p-10 text-center hover:bg-black hover:text-white transition-all font-bold uppercase text-xs tracking-widest border-2 border-transparent hover:border-[#86BC24]";
+        btn.innerText = sol.title;
+        btn.onclick = () => showSolution(index);
+        menu.appendChild(btn);
+    });
+}
+
+function showSolution(index) {
+    currentSolutionIdx = index;
+    const sol = solutionsData[index];
+    
+    document.getElementById('solutions-main-menu').classList.add('hidden');
+    document.getElementById('solutions-content-view').classList.remove('hidden');
+    
+    document.getElementById('current-solution-title').innerText = sol.title;
+    
+    const grid = document.getElementById('solutions-items-grid');
+    grid.innerHTML = '';
+    
+    sol.items.forEach((item, i) => {
+        const div = document.createElement('div');
+        div.className = "solution-item glass-card p-8 flex flex-col justify-between border-t-4 " + (i % 2 === 0 ? 'border-black' : 'border-[#86BC24]');
+        div.innerHTML = `
+            <div>
+                <h3 class="text-lg font-bold mb-2 uppercase">${item.name}</h3>
+                <p class="text-[10px] text-gray-500 italic mb-6 tracking-widest">Профессиональный пакет</p>
+            </div>
+            <div>
+                <div class="text-2xl font-black mb-6 text-right">${item.price.toLocaleString()} ₽</div>
+                <button onclick="openOrderModal('${item.name}')" class="w-full py-3 bg-black text-white font-bold uppercase text-[10px] tracking-widest hover:bg-[#86BC24] transition-all">Выбрать</button>
+            </div>
+        `;
+        grid.appendChild(div);
+    });
+    grid.scrollLeft = 0;
+}
+
+function navSolution(dir) {
+    let next = currentSolutionIdx + dir;
+    if (next < 0) next = solutionsData.length - 1;
+    if (next >= solutionsData.length) next = 0;
+    showSolution(next);
+}
+
+function backToSolutions() {
+    document.getElementById('solutions-main-menu').classList.remove('hidden');
+    document.getElementById('solutions-content-view').classList.add('hidden');
+}
+
+// МОДАЛКИ (БЕЗ ИЗМЕНЕНИЙ)
 function openSelectedModal() {
     const list = document.getElementById('selectedList');
     list.innerHTML = '';
@@ -528,6 +436,11 @@ function openSelectedModal() {
             </div>
         `;
     });
+    
+    let count = selectedServices.length;
+    let discText = count >= 3 ? (count > 6 ? "Ваша скидка: 30%" : "Ваша скидка: 15%") : "";
+    document.getElementById('modalDiscountInfo').innerText = discText;
+    
     document.getElementById('selectedModal').classList.add('active');
 }
 
@@ -551,7 +464,7 @@ function closeModals() {
 }
 
 function sendOrder(type) {
-    const text = encodeURIComponent(`Здравствуйте! Хочу узнать подробнее о пакете «${currentPkg}».`);
+    const text = encodeURIComponent(`Здравствуйте! Хочу узнать подробнее о решении «${currentPkg}».`);
     const url = type === 'max' 
         ? `https://max.ru/u/f9LHodD0cOLfZNnm5fW88XXEncP36OwIrQF6_creXm_-DZT0g-LND_Hv5nc?text=${text}`
         : `imessage:89147128405?&body=${text}`;
