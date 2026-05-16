@@ -474,10 +474,15 @@ function showSolution(index) {
     sol.items.forEach((item, i) => {
         const div = document.createElement('div');
         div.className = "solution-item bg-white p-8 flex flex-col justify-between border border-gray-100 rounded-3xl shadow-sm";
+        
+        // Читаем описание из данных. Если его нет, выводим стандартную фразу
+        const description = item.desc ? item.desc : "Экспертный пакет";
+
         div.innerHTML = `
             <div>
                 <h3 class="text-xl font-black mb-2 uppercase leading-tight">${item.name}</h3>
-                <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-6">Экспертный пакет</p>
+                <!-- Вот здесь теперь выводится наше описание -->
+                <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-6">${description}</p>
             </div>
             <div>
                 <div class="text-2xl font-black mb-6 text-right">${item.price.toLocaleString()} ₽</div>
