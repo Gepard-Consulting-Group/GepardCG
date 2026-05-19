@@ -145,6 +145,29 @@
         
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* --- СТИЛИ ДЛЯ МОБИЛЬНОГО УВЕДОМЛЕНИЯ ОДНОЙ КНОПКОЙ --- */
+        #pwa-notification-banner {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            z-index: 9999;
+            transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        #pwa-notification-banner.show {
+            bottom: 24px;
+        }
+        @media (min-width: 768px) {
+            #pwa-notification-banner { display: none !important; }
+        }
     </style>
 </head>
 <body class="text-black overflow-hidden" id="body-lock">
@@ -285,6 +308,33 @@
 </div>
 
 </div>
+
+<!-- ИНТЕРФЕЙСНЫЙ БЛОК: МОБИЛЬНОЕ УВЕДОМЛЕНИЕ -->
+<div id="pwa-notification-banner" class="p-5 rounded-[2rem] flex flex-col items-center justify-between gap-4">
+    <div class="flex items-center gap-3 w-full">
+        <div class="bg-black text-white w-10 h-10 rounded-xl flex items-center justify-center font-black text-xs uppercase">Г</div>
+        <div class="flex-1 text-left">
+            <h4 class="text-xs font-bold uppercase tracking-tight text-black">Приложение «Гепард»</h4>
+            <p class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Добавить на рабочий стол</p>
+        </div>
+        <button onclick="dismissPwaBanner(event)" class="text-gray-400 hover:text-black font-semibold text-lg px-2 transition-all">&times;</button>
+    </div>
+    <button onclick="triggerPwaInstall()" class="w-full bg-[#86BC24] text-black py-3 rounded-xl text-[11px] font-bold uppercase tracking-widest shadow-md hover:bg-black hover:text-white transition-all">
+        Добавить приложение
+    </button>
+</div>
+
+<!-- МОДАЛЬНОЕ ОКНО-ПОДСКАЗКА ДЛЯ IOS (SAFARI) -->
+<div id="iosPromptModal" class="modal">
+    <div class="bg-white p-8 rounded-[2rem] max-w-xs w-full mx-4 shadow-2xl text-center relative border border-gray-100">
+        <div class="text-3xl mb-4">📲</div>
+        <h3 class="text-lg font-black mb-3 uppercase tracking-tight">Установка на iPhone</h3>
+        <p class="text-gray-600 text-xs leading-relaxed mb-6">
+            Нажмите кнопку <strong class="text-black">«Поделиться»</strong> (иконка квадрата со стрелкой вверх внизу экрана Safari), а затем выберите <strong class="text-black">«На экран "Домой"»</strong>.
+        </p>
+        <button onclick="closeModals()" class="w-full bg-black text-white py-3 rounded-xl font-bold uppercase text-[10px] tracking-widest hover:bg-[#86BC24] transition-all">Понятно</button>
+    </div>
+</div>
     
 <script>
 // --- ДАННЫЕ УСЛУГ (30 ШТУК) ---
@@ -330,7 +380,7 @@ const solutionsData = [
         { name: 'Фриланс как бизнес', price: 30000, desc: "Формирование структуры услуг / Подготовка шаблонов договоров и актов / Настройка финансового учета / Разработка системы повторных продаж." },
         { name: 'Доход на партнерских проектах', price: 45000, desc: "Создание партнерской модели / Настройка системы распределения доходов / Подготовка договорной базы / Анализ перспектив масштабирования." },
         { name: 'Семейный доход', price: 20000, desc: "Формирование семейной финансовой стратегии / Разделение зон ответственности / Подбор дополнительных источников дохода / Планирование накоплений и резервов." },
-        { name: 'Работа из дома', price: 18000, desc: "Подбор удаленного формата деятельности / Настройка онлайн-инструментов / Формирование графика и финансовой дисциплины / Организация безопасного приема платежей." },
+        { name: 'Работа из дома', price: 18000, desc: "Подбор удаленного формата деятельности / Настройка онлайн-инструментов / Формирование графика и financial дисциплины / Организация безопасного приема платежей." },
         { name: 'Переход из найма', price: 38000, desc: "Оценка финансовых рисков ухода из найма / Формирование подушки безопасности / Разработка стратегии плавного перехода / Построение системы первых продаж." },
         { name: 'Экспертная консультационная практика', price: 60000, desc: "Разработка консультационного продукта / Формирование прайс-листа / Создание системы записи клиентов / Подготовка материалов для работы с клиентами." },
         { name: 'Мини-бизнес под ключ', price: 85000, desc: "Регистрация деятельности и базовая документация / Разработка финансовой модели / Подготовка сайта или презентации услуг / Настройка системы учета клиентов." },
@@ -397,6 +447,9 @@ let selectedServices = [];
 let currentSolutionIdx = 0;
 let currentPkg = '';
 
+// Глобальная переменная для системного события PWA установки
+let deferredPrompt = null;
+
 // Безопасная инициализация каталогов данных
 function initApp() {
     const servicesContainer = document.getElementById('services-list');
@@ -409,6 +462,9 @@ function initApp() {
     if (menuContainer && menuContainer.children.length === 0) {
         renderSolutionMenu();
     }
+
+    // Инициализация системы триггера PWA баннера на мобильных устройствах
+    initPwaLogic();
 }
 
 // Слушатель для классической и автономной веб-загрузки
@@ -576,6 +632,69 @@ function sendCustomOrder() {
     const names = selectedServices.map(s => s.name).join(', ');
     const text = encodeURIComponent(`Заказ на услуги: ${names}`);
     window.location.href = `https://max.ru/u/f9LHodD0cOLfZNnm5fW88XXEncP36OwIrQF6_creXm_-DZT0g-LND_Hv5nc?text=${text}`;
+}
+
+// --- ЛОГИКА ДЛЯ PWA УСТАНОВКИ НА РАБОЧИЙ СТОЛ ---
+function initPwaLogic() {
+    // Проверяем, мобильное ли устройство (экран меньше 768px)
+    if (window.innerWidth >= 768) return;
+
+    // Проверяем, закрывал ли уже пользователь баннер ранее в этой сессии
+    if (sessionStorage.getItem('pwa-banner-dismissed') === 'true') return;
+
+    // 1. Для Android / Chrome отлавливаем системное событие готовности к установке
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e; // Сохраняем событие
+        showPwaBanner();
+    });
+
+    // 2. Для iOS (Safari) или если браузер не поддерживает beforeinstallprompt,
+    // выводим баннер через 3 секунды после загрузки сайта
+    setTimeout(() => {
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+        
+        // Показываем, только если это iOS, и сайт ещё не запущен как приложение
+        if (isIOS && !isStandalone && !deferredPrompt) {
+            showPwaBanner();
+        } else if (!deferredPrompt && !isStandalone) {
+            // Для остальных мобильных браузеров, на случай если правила PWA соблюдены частично
+            showPwaBanner();
+        }
+    }, 3000);
+}
+
+function showPwaBanner() {
+    const banner = document.getElementById('pwa-notification-banner');
+    if (banner) banner.classList.add('show');
+}
+
+function dismissPwaBanner(event) {
+    if (event) event.stopPropagation();
+    const banner = document.getElementById('pwa-notification-banner');
+    if (banner) banner.classList.remove('show');
+    // Запоминаем выбор пользователя на время текущей вкладки, чтобы не надоедать
+    sessionStorage.setItem('pwa-banner-dismissed', 'true');
+}
+
+function triggerPwaInstall() {
+    const banner = document.getElementById('pwa-notification-banner');
+    if (banner) banner.classList.remove('show');
+
+    // Если у нас сохранен системный промис (Android / Chrome)
+    if (deferredPrompt) {
+        deferredPrompt.prompt(); // Показываем нативное окно
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('Пользователь установил приложение');
+            }
+            deferredPrompt = null;
+        });
+    } else {
+        // Если это iOS или нативный промис недоступен, вызываем окно с аккуратной инструкцией
+        document.getElementById('iosPromptModal').classList.add('active');
+    }
 }
 
 // Принудительный запуск для статических или сохраненных страниц
