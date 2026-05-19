@@ -309,12 +309,14 @@
 
 </div>
 
-<!-- ИНТЕРФЕЙСНЫЙ БЛОК: МОБИЛЬНОЕ УВЕДОМЛЕНИЕ -->
+<!-- ОБНОВЛЕННЫЙ ИНТЕРФЕЙСНЫЙ БЛОК: МОБИЛЬНОЕ УВЕДОМЛЕНИЕ С ИКОНКОЙ И ОБНОВЛЕННЫМ НАЗВАНИЕМ -->
 <div id="pwa-notification-banner" class="p-5 rounded-[2rem] flex flex-col items-center justify-between gap-4">
     <div class="flex items-center gap-3 w-full">
-        <div class="bg-black text-white w-10 h-10 rounded-xl flex items-center justify-center font-black text-xs uppercase">Г</div>
+        <!-- Вставляем реальный SVG вместо черного блока -->
+        <img src="./favicon.svg" alt="Иконка" class="w-10 h-10 rounded-xl object-contain bg-white/50 p-1 border border-gray-100" onerror="this.src='./favicon-96x96.png'">
         <div class="flex-1 text-left">
-            <h4 class="text-xs font-bold uppercase tracking-tight text-black">Приложение «Гепард»</h4>
+            <!-- Сменили название с Гепард на Помощь -->
+            <h4 class="text-xs font-bold uppercase tracking-tight text-black">Приложение «Помощь»</h4>
             <p class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Добавить на рабочий стол</p>
         </div>
         <button onclick="dismissPwaBanner(event)" class="text-gray-400 hover:text-black font-semibold text-lg px-2 transition-all">&times;</button>
@@ -324,13 +326,13 @@
     </button>
 </div>
 
-<!-- МОДАЛЬНОЕ ОКНО-ПОДСКАЗКА ДЛЯ IOS (SAFARI) -->
+<!-- МОДАЛЬНОЕ ОКНО-ПОДСКАЗКА ДЛЯ IOS (SAFARI) С ОБНОВЛЕННЫМ ТЕКСТОМ -->
 <div id="iosPromptModal" class="modal">
     <div class="bg-white p-8 rounded-[2rem] max-w-xs w-full mx-4 shadow-2xl text-center relative border border-gray-100">
         <div class="text-3xl mb-4">📲</div>
         <h3 class="text-lg font-black mb-3 uppercase tracking-tight">Установка на iPhone</h3>
         <p class="text-gray-600 text-xs leading-relaxed mb-6">
-            Нажмите кнопку <strong class="text-black">«Поделиться»</strong> (иконка квадрата со стрелкой вверх внизу экрана Safari), а затем выберите <strong class="text-black">«На экран "Домой"»</strong>.
+            Чтобы установить приложение <strong class="text-black">«Помощь»</strong>, нажмите кнопку <strong class="text-black">«Поделиться»</strong> внизу экрана Safari, а затем выберите <strong class="text-black">«На экран "Домой"»</strong>.
         </p>
         <button onclick="closeModals()" class="w-full bg-black text-white py-3 rounded-xl font-bold uppercase text-[10px] tracking-widest hover:bg-[#86BC24] transition-all">Понятно</button>
     </div>
@@ -380,7 +382,7 @@ const solutionsData = [
         { name: 'Фриланс как бизнес', price: 30000, desc: "Формирование структуры услуг / Подготовка шаблонов договоров и актов / Настройка финансового учета / Разработка системы повторных продаж." },
         { name: 'Доход на партнерских проектах', price: 45000, desc: "Создание партнерской модели / Настройка системы распределения доходов / Подготовка договорной базы / Анализ перспектив масштабирования." },
         { name: 'Семейный доход', price: 20000, desc: "Формирование семейной финансовой стратегии / Разделение зон ответственности / Подбор дополнительных источников дохода / Планирование накоплений и резервов." },
-        { name: 'Работа из дома', price: 18000, desc: "Подбор удаленного формата деятельности / Настройка онлайн-инструментов / Формирование графика и financial дисциплины / Организация безопасного приема платежей." },
+        { name: 'Работа из дома', price: 18000, desc: "Подбор удаленного формата деятельности / Настройка онлайн-инструментов / Формирование графика и financial discipline – создание финансовой дисциплины / Организация безопасного приема платежей." },
         { name: 'Переход из найма', price: 38000, desc: "Оценка финансовых рисков ухода из найма / Формирование подушки безопасности / Разработка стратегии плавного перехода / Построение системы первых продаж." },
         { name: 'Экспертная консультационная практика', price: 60000, desc: "Разработка консультационного продукта / Формирование прайс-листа / Создание системы записи клиентов / Подготовка материалов для работы с клиентами." },
         { name: 'Мини-бизнес под ключ', price: 85000, desc: "Регистрация деятельности и базовая документация / Разработка финансовой модели / Подготовка сайта или презентации услуг / Настройка системы учета клиентов." },
