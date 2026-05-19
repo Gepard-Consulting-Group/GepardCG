@@ -309,22 +309,50 @@
 
 </div>
 
-<!-- ОБНОВЛЕННЫЙ ИНТЕРФЕЙСНЫЙ БЛОК: МОБИЛЬНОЕ УВЕДОМЛЕНИЕ С ИКОНКОЙ И ОБНОВЛЕННЫМ НАЗВАНИЕМ -->
+<!-- ОБНОВЛЕННЫЙ ИНТЕРФЕЙСНЫЙ БЛОК: МОБИЛЬНОЕ УВЕДОМЛЕНИЕ -->
 <div id="pwa-notification-banner" class="p-5 rounded-[2rem] flex flex-col items-center justify-between gap-4">
     <div class="flex items-center gap-3 w-full">
-        <!-- Вставляем реальный SVG вместо черного блока -->
-        <img src="./favicon-96x96.png" alt="Иконка" class="w-10 h-10 rounded-xl object-contain bg-white/50 p-1 border border-gray-100" onerror="this.src='./favicon-96x96.png'">
+        <!-- Твоя основная иконка png -->
+        <img src="./favicon-96x96.png" alt="Иконка" class="w-10 h-10 rounded-xl object-contain bg-white/50 p-1 border border-gray-100">
         <div class="flex-1 text-left">
-            <!-- Сменили название с Гепард на Помощь -->
             <h4 class="text-xs font-bold uppercase tracking-tight text-black">Приложение «Помощь»</h4>
             <p class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Добавить на рабочий стол</p>
         </div>
+        <!-- Кнопка-крестик -->
         <button onclick="dismissPwaBanner(event)" class="text-gray-400 hover:text-black font-semibold text-lg px-2 transition-all">&times;</button>
     </div>
     <button onclick="triggerPwaInstall()" class="w-full bg-[#86BC24] text-black py-3 rounded-xl text-[11px] font-bold uppercase tracking-widest shadow-md hover:bg-black hover:text-white transition-all">
         Добавить приложение
     </button>
 </div>
+
+<script>
+// --- ОБНОВЛЕННЫЕ ФУНКЦИИ УПРАВЛЕНИЯ БАННЕРОМ ---
+
+function showPwaBanner() {
+    const banner = document.getElementById('pwa-notification-banner');
+    // Проверяем, не скрыт ли баннер окончательно в этой сессии
+    if (banner && banner.style.display !== 'none') {
+        banner.classList.add('show');
+    }
+}
+
+function dismissPwaBanner(event) {
+    if (event) event.stopPropagation();
+    const banner = document.getElementById('pwa-notification-banner');
+    if (banner) {
+        // 1. Сначала запускаем плавное скрытие (убираем класс)
+        banner.classList.remove('show');
+        
+        // 2. Ждем окончания анимации (500мс) и полностью убираем блок до перезагрузки страницы
+        setTimeout(() => {
+            banner.style.display = 'none';
+        }, 500);
+    }
+    // Запоминаем выбор в сессии, чтобы при переходе по ссылкам внутри сайта баннер не всплывал заново
+    sessionStorage.setItem('pwa-banner-dismissed', 'true');
+}
+</script>
 
 <!-- МОДАЛЬНОЕ ОКНО-ПОДСКАЗКА ДЛЯ IOS (SAFARI) С ОБНОВЛЕННЫМ ТЕКСТОМ -->
 <div id="iosPromptModal" class="modal">
