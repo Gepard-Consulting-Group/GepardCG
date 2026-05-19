@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    
     <link rel="icon" type="image/png" href="./favicon-96x96.png" sizes="96x96" />
-<link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-<link rel="shortcut icon" href="./favicon.ico" />
-<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
-<meta name="apple-mobile-web-app-title" content="Помощь" />
-<link rel="manifest" href="./site.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Помощь" />
+    <link rel="manifest" href="./site.webmanifest" />
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -98,7 +97,7 @@
             position: relative;
             border: 1px solid #eee;
             transition: all 0.4s ease;
-            height: 320px; /* Увеличено для текста */
+            height: 320px;
             display: flex;
             flex-direction: column;
             padding: 2rem;
@@ -208,8 +207,7 @@
     <div class="max-w-7xl mx-auto px-6">
         <h2 class="text-4xl font-black mb-8 uppercase tracking-tighter">Все услуги</h2>
         
-        <div class="services-scroll-container hide-scrollbar" id="services-list">
-            </div>
+        <div class="services-scroll-container hide-scrollbar" id="services-list"></div>
 
         <div class="mt-8 flex flex-col md:flex-row justify-end items-center gap-6">
             <button id="viewSelectedBtn" onclick="openSelectedModal()" class="hidden w-full md:w-auto bg-[#86BC24] text-black px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-black hover:text-white transition-all shadow-lg">Просмотр выбранного</button>
@@ -229,8 +227,7 @@
     <div class="max-w-7xl mx-auto px-6">
         <h2 class="text-4xl font-black mb-12 uppercase tracking-tighter text-center">Комплексные решения</h2>
         
-        <div id="solutions-main-menu" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            </div>
+        <div id="solutions-main-menu" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
 
         <div id="solutions-content-view" class="hidden">
             <div class="flex items-center justify-between border-b-2 border-black pb-4 mb-8">
@@ -239,8 +236,7 @@
                 <button onclick="navSolution(1)" class="p-2 hover:text-[#86BC24] transition-all font-bold text-xl">→</button>
             </div>
             
-            <div id="solutions-items-grid" class="solutions-grid hide-scrollbar">
-                </div>
+            <div id="solutions-items-grid" class="solutions-grid hide-scrollbar"></div>
             
             <div class="mt-12 text-center">
                 <button onclick="backToSolutions()" class="px-8 py-3 bg-gray-100 rounded-full text-[10px] uppercase tracking-widest font-bold hover:bg-black hover:text-white transition-all">Вернуться к категориям</button>
@@ -340,7 +336,7 @@ const solutionsData = [
         { name: 'Мини-бизнес под ключ', price: 85000, desc: "Регистрация деятельности и базовая документация / Разработка финансовой модели / Подготовка сайта или презентации услуг / Настройка системы учета клиентов." },
         { name: 'Финансовая дисциплина', price: 15000, desc: "Анализ личных финансов / Разработка системы учета доходов и расходов / Формирование стратегии накопления / Настройка финансовых целей." }
     ]},
-    { id: 'start', title: 'Для Стартапов', items: [
+    { id: 'startup', title: 'Для Стартапов', items: [
         { name: 'Стартап с нуля', price: 120000, desc: "Разработка бизнес-модели / Финансовое планирование проекта / Формирование структуры компании / Подготовка дорожной карты запуска." },
         { name: 'Инвест-подготовка', price: 150000, desc: "Подготовка презентации для инвесторов / Расчет unit-экономики / Финансовая аналитика проекта / Подготовка инвестиционных материалов." },
         { name: 'Антикризисный запуск', price: 90000, desc: "Подготовка презентации для инвесторов / Расчет unit-экономики / Финансовая аналитика проекта / Подготовка инвестиционных материалов." },
@@ -373,7 +369,7 @@ const solutionsData = [
     { id: 'comm', title: 'Для коммерческого сектора', items: [
         { name: 'Финансовый аудит бизнеса', price: 150000, desc: "Проверка финансовых потоков / Анализ рисков и уязвимостей / Подготовка рекомендаций / Формирование отчета для руководства." },
         { name: 'Оптимизация структуры', price: 180000, desc: "Анализ организационной модели / Оптимизация расходов подразделений / Повышение эффективности процессов / Формирование новой структуры управления." },
-        { name: 'Корпоративная безопасность', price: 220000, desc: "Анализ внутренних рисков / Проверка контрагентов / Разработка системы контроля / Подготовка рекомендаций по безопасности бизнеса." },
+        { name: 'Corporate Security', price: 220000, desc: "Анализ внутренних рисков / Проверка контрагентов / Разработка системы контроля / Подготовка рекомендаций по безопасности бизнеса." },
         { name: 'Сопровождение сделок', price: 75000, desc: "Проверка документации / Анализ финансовых условий / Подготовка договоров / Сопровождение переговоров." },
         { name: 'Управление прибылью', price: 140000, desc: "Анализ финансовой эффективности / Настройка управленческой отчетности / Контроль денежных потоков / Разработка стратегии роста прибыли." },
         { name: 'Антикризисное управление', price: 250000, desc: "Экстренный финансовый анализ / Разработка плана стабилизации / Снижение критических расходов / Формирование новой финансовой стратегии." },
@@ -385,7 +381,7 @@ const solutionsData = [
         { name: 'Социальный проект', price: 75000, desc: "Разработка концепции проекта / Построение финансовой модели / Подготовка презентации / Сопровождение запуска." },
     ]},
     { id: 'gov', title: 'Для Гос. структур', items: [
-        { name: 'Финансовыая аналитика', price: 250000, desc: "Анализ бюджетных процессов / Подготовка аналитических материалов / Оценка эффективности расходов / Формирование рекомендаций." },
+        { name: 'Финансовая аналитика', price: 250000, desc: "Анализ бюджетных процессов / Подготовка аналитических материалов / Оценка эффективности расходов / Формирование рекомендаций." },
         { name: 'Оптимизация расходов', price: 320000, desc: "Проверка текущих затрат / Анализ финансовой нагрузки / Разработка мер оптимизации / Подготовка итогового отчета." },
         { name: 'Проектное сопровождение', price: 450000, desc: "Финансовое сопровождение проекта / Подготовка документации / Контроль исполнения бюджета / Аналитика реализации проекта." },
     ]},
@@ -399,11 +395,24 @@ const solutionsData = [
 
 let selectedServices = [];
 let currentSolutionIdx = 0;
+let currentPkg = '';
 
-window.onload = () => {
-    renderServices();
-    renderSolutionMenu();
-};
+// Безопасная инициализация каталогов данных
+function initApp() {
+    const servicesContainer = document.getElementById('services-list');
+    const menuContainer = document.getElementById('solutions-main-menu');
+    
+    // Проверяем, что элементы чистые и существуют перед рендером
+    if (servicesContainer && servicesContainer.children.length === 0) {
+        renderServices();
+    }
+    if (menuContainer && menuContainer.children.length === 0) {
+        renderSolutionMenu();
+    }
+}
+
+// Слушатель для классической и автономной веб-загрузки
+document.addEventListener('DOMContentLoaded', initApp);
 
 function enterSite() {
     document.getElementById('entry-overlay').style.opacity = '0';
@@ -414,9 +423,10 @@ function enterSite() {
     }, 700);
 }
 
-// ЛОГИКА УСЛУГ (ШРИФТЫ УВЕЛИЧЕНЫ)
 function renderServices() {
     const container = document.getElementById('services-list');
+    if (!container) return;
+    container.innerHTML = '';
     servicesData.forEach(s => {
         const div = document.createElement('div');
         div.className = "service-card rounded-2xl cursor-pointer";
@@ -466,9 +476,9 @@ function updateCart() {
     document.getElementById('viewSelectedBtn').classList.toggle('hidden', count === 0);
 }
 
-// ЛОГИКА КОМПЛЕКСНЫХ РЕШЕНИЙ (LIQUID GLASS КНОПКИ)
 function renderSolutionMenu() {
     const menu = document.getElementById('solutions-main-menu');
+    if (!menu) return;
     menu.innerHTML = '';
     solutionsData.forEach((sol, index) => {
         const btn = document.createElement('button');
@@ -495,13 +505,11 @@ function showSolution(index) {
         const div = document.createElement('div');
         div.className = "solution-item bg-white p-8 flex flex-col justify-between border border-gray-100 rounded-3xl shadow-sm";
         
-        // Читаем описание из данных. Если его нет, выводим стандартную фразу
         const description = item.desc ? item.desc : "Экспертный пакет";
 
         div.innerHTML = `
             <div>
                 <h3 class="text-xl font-black mb-2 uppercase leading-tight">${item.name}</h3>
-                <!-- Вот здесь теперь выводится наше описание -->
                 <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-6">${description}</p>
             </div>
             <div>
@@ -523,7 +531,6 @@ function backToSolutions() {
     document.getElementById('solutions-content-view').classList.add('hidden');
 }
 
-// МОДАЛКИ
 function openSelectedModal() {
     const list = document.getElementById('selectedList');
     list.innerHTML = '';
@@ -570,6 +577,9 @@ function sendCustomOrder() {
     const text = encodeURIComponent(`Заказ на услуги: ${names}`);
     window.location.href = `https://max.ru/u/f9LHodD0cOLfZNnm5fW88XXEncP36OwIrQF6_creXm_-DZT0g-LND_Hv5nc?text=${text}`;
 }
+
+// Принудительный запуск для статических или сохраненных страниц
+initApp();
 </script>
 </body>
 </html>
