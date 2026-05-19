@@ -309,50 +309,21 @@
 
 </div>
 
-<!-- ОБНОВЛЕННЫЙ ИНТЕРФЕЙСНЫЙ БЛОК: МОБИЛЬНОЕ УВЕДОМЛЕНИЕ -->
+<!-- ОБНОВЛЕННЫЙ ИНТЕРФЕЙСНЫЙ БЛОК: МОБИЛЬНОЕ УВЕДОМЛЕНИЕ С ИКОНКОЙ И ОБНОВЛЕННЫМ НАЗВАНИЕМ -->
 <div id="pwa-notification-banner" class="p-5 rounded-[2rem] flex flex-col items-center justify-between gap-4">
     <div class="flex items-center gap-3 w-full">
-        <!-- Твоя основная иконка png -->
+        <!-- Подключена картинка favicon-96x96.png -->
         <img src="./favicon-96x96.png" alt="Иконка" class="w-10 h-10 rounded-xl object-contain bg-white/50 p-1 border border-gray-100">
         <div class="flex-1 text-left">
             <h4 class="text-xs font-bold uppercase tracking-tight text-black">Приложение «Помощь»</h4>
             <p class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Добавить на рабочий стол</p>
         </div>
-        <!-- Кнопка-крестик -->
         <button onclick="dismissPwaBanner(event)" class="text-gray-400 hover:text-black font-semibold text-lg px-2 transition-all">&times;</button>
     </div>
     <button onclick="triggerPwaInstall()" class="w-full bg-[#86BC24] text-black py-3 rounded-xl text-[11px] font-bold uppercase tracking-widest shadow-md hover:bg-black hover:text-white transition-all">
         Добавить приложение
     </button>
 </div>
-
-<script>
-// --- ОБНОВЛЕННЫЕ ФУНКЦИИ УПРАВЛЕНИЯ БАННЕРОМ ---
-
-function showPwaBanner() {
-    const banner = document.getElementById('pwa-notification-banner');
-    // Проверяем, не скрыт ли баннер окончательно в этой сессии
-    if (banner && banner.style.display !== 'none') {
-        banner.classList.add('show');
-    }
-}
-
-function dismissPwaBanner(event) {
-    if (event) event.stopPropagation();
-    const banner = document.getElementById('pwa-notification-banner');
-    if (banner) {
-        // 1. Сначала запускаем плавное скрытие (убираем класс)
-        banner.classList.remove('show');
-        
-        // 2. Ждем окончания анимации (500мс) и полностью убираем блок до перезагрузки страницы
-        setTimeout(() => {
-            banner.style.display = 'none';
-        }, 500);
-    }
-    // Запоминаем выбор в сессии, чтобы при переходе по ссылкам внутри сайта баннер не всплывал заново
-    sessionStorage.setItem('pwa-banner-dismissed', 'true');
-}
-</script>
 
 <!-- МОДАЛЬНОЕ ОКНО-ПОДСКАЗКА ДЛЯ IOS (SAFARI) С ОБНОВЛЕННЫМ ТЕКСТОМ -->
 <div id="iosPromptModal" class="modal">
@@ -452,7 +423,7 @@ const solutionsData = [
         { name: 'Corporate Security', price: 220000, desc: "Анализ внутренних рисков / Проверка контрагентов / Разработка системы контроля / Подготовка рекомендаций по безопасности бизнеса." },
         { name: 'Сопровождение сделок', price: 75000, desc: "Проверка документации / Анализ финансовых условий / Подготовка договоров / Сопровождение переговоров." },
         { name: 'Управление прибылью', price: 140000, desc: "Анализ финансовой эффективности / Настройка управленческой отчетности / Контроль денежных потоков / Разработка стратегии роста прибыли." },
-        { name: 'Антикризисное управление', price: 250000, desc: "Экстренный финансовый анализ / Разработка плана стабилизации / Снижение критических расходов / Формирование новой финансовой стратегии." },
+        { name: 'Антикризиправление', price: 250000, desc: "Экстренный финансовый анализ / Разработка плана стабилизации / Снижение критических расходов / Формирование новой финансовой стратегии." },
     ]},
     { id: 'nonprofit', title: 'Для НКО', items: [
         { name: 'НКО Старт', price: 40000, desc: "Регистрация организации / Формирование структуры управления / Подготовка документации / Консультация по отчетности." },
@@ -697,14 +668,26 @@ function initPwaLogic() {
 
 function showPwaBanner() {
     const banner = document.getElementById('pwa-notification-banner');
-    if (banner) banner.classList.add('show');
+    // Проверяем, не скрыт ли баннер окончательно в этой сессии
+    if (banner && banner.style.display !== 'none') {
+        banner.classList.add('show');
+    }
 }
 
+// --- ОБНОВЛЕННАЯ ФУНКЦИЯ ЗАКРЫТИЯ БАННЕРА ---
 function dismissPwaBanner(event) {
     if (event) event.stopPropagation();
     const banner = document.getElementById('pwa-notification-banner');
-    if (banner) banner.classList.remove('show');
-    // Запоминаем выбор пользователя на время текущей вкладки, чтобы не надоедать
+    if (banner) {
+        // 1. Сначала запускаем плавное скрытие (убираем класс, чтобы он уехал вниз)
+        banner.classList.remove('show');
+        
+        // 2. Ждем окончания анимации (500мс) и полностью убираем блок до перезагрузки страницы
+        setTimeout(() => {
+            banner.style.display = 'none';
+        }, 500);
+    }
+    // Запоминаем выбор в сессии, чтобы при переходе по ссылкам внутри сайта баннер не всплывал заново
     sessionStorage.setItem('pwa-banner-dismissed', 'true');
 }
 
