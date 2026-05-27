@@ -1,0 +1,10 @@
+{
+    "title": "My Stats",
+    "type": "list",
+    "data": [
+        {"key": "Users", "value": "1250"},
+        {"key": "Revenue", "value": "$5, 3K"},
+        {"key": "Growth", "value": "+12%", 
+            "color": "green"}
+    ]
+}
